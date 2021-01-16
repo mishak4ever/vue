@@ -1,0 +1,32 @@
+section.reviews
+  .container.reviews_container
+    .reviews_header
+      .reviews_title Что обо мне говорят
+      .reviews_buttons
+        a(href="#").reviews_btn.prev
+        a(href="#").reviews_btn.next
+    ul.reviews_content
+      li.reviews_content-item
+        .quote
+          .review_text
+            p Этот парень проходил обучение веб-разработке не где-то, а в Loftschool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!
+          .review_user
+            .user_block
+              .avatar
+                .user-min__pic-wrapper
+                  +image('content/user.jpg', 'user-min__avatar-pic')
+              .info
+                p.name Ковальчук Дмитрий
+                p.position Основатель Loftschool
+      li.reviews_content-item
+        .quote
+          .review_text
+            p Этот код выдержит любые испытания. Только пожалуйста, не загружайте сайт на слишком старых браузерах
+          .review_user
+            .user_block
+              .avatar
+                .user-min__pic-wrapper
+                  +image('content/user.jpg', 'user-min__avatar-pic')
+              .info
+                p.name Владимир Сабанцев
+                p.position Преподаватель

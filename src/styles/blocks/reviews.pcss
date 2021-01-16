@@ -1,0 +1,176 @@
+.reviews {
+  background: url("../images/content/budda.png") top no-repeat;
+  margin-top: 126px;
+  padding-top: 253px;
+  padding-bottom: 135px;
+}
+.reviews_container {
+  padding-right: 10%;
+}
+
+.reviews_header {
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  margin-bottom: 95px;
+  padding-right: 30%;
+}
+
+.reviews_title {
+  margin-bottom: 0;
+  margin-right: 10%;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 49px;
+}
+
+.reviews_buttons {
+  display: flex;
+}
+
+.reviews_btn {
+  width: 50px;
+  height: 50px;
+  border: 1px solid currentColor;
+  position: relative;
+  border-radius: 50%;
+  margin-right: 30px;
+  display: block;
+}
+.reviews_buttons .prev {
+  &:before {
+    content: "";
+    background: svg-load(
+        "arrow-left.svg",
+        fill=$text-color,
+        width=100%,
+        height=100%
+      )
+      center center no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    opacity: 0.3;
+  }
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+.reviews_buttons .next {
+  &:before {
+    content: "";
+    background: svg-load(
+        "arrow-right.svg",
+        fill=$text-color,
+        width=100%,
+        height=100%
+      )
+      center center no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    opacity: 0.3;
+  }
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+
+.quote_block {
+  height: 100%;
+
+  &:before {
+    content: "1";
+    display: block;
+    width: 18%;
+    height: 15%;
+    background: svg-load("quote.svg", fill=$light-grey) center center / contain
+      no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+.quote {
+  padding-left: 4%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.review_text {
+  margin-bottom: 30px;
+  color: rgba($text-color, 0.6);
+  font-size: 16px;
+  line-height: 30px;
+}
+
+.reviews_content {
+  overflow: hidden;
+  display: flex;
+}
+
+.reviews_content-item {
+  display: flex;
+  flex-shrink: 0;
+  padding-right: 30px;
+  width: 50%;
+
+  &:before {
+    content: "";
+    display: block;
+    width: 22%;
+    height: 25%;
+    background: svg-load("quote.svg", fill=$light-grey) center center / contain
+      no-repeat;
+    top: 0;
+    left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.user_block {
+  display: flex;
+  align-items: center;
+}
+
+.user_block .avatar {
+  margin-right: 30px;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.user_block .info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user_block .info .name {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.user_block .info .position {
+  color: rgba($text-color, 0.6);
+  font-size: 16px;
+  line-height: 22px;
+}
