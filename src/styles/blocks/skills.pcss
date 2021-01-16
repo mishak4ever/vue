@@ -1,0 +1,73 @@
+.skills-section {
+  padding: 140px 0;
+  width: 100%;
+}
+
+.skills_container {
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    background: url("../images/content/bag.png") no-repeat;
+    display: block;
+    bottom: 5%;
+    height: 79%;
+    width: 69%;
+    left: -30%;
+  }
+}
+
+.skills {
+  text-align: center;
+}
+
+.skills__item {
+  margin-bottom: 30px;
+}
+
+.skill {
+  position: relative;
+  width: 138px;
+  height: 138px;
+}
+
+.skill__circle {
+  fill: transparent;
+  &_under {
+    stroke: #eaeaea;
+    stroke-width: 5px;
+  }
+  &_above {
+    stroke-width: 12px;
+    stroke-dasharray: 251;
+    stroke-dashoffset: 100;
+  }
+}
+
+.skill__circle-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 18px;
+  color: rgba($text-color, 0.5);
+  padding: 14px;
+}
+
+.skills-row__title {
+  margin-bottom: 26px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.skills-row__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -4%;
+  justify-content: space-between;
+}
+
+.skills-row__item {
+  margin-left: 4%;
+}

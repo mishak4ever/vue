@@ -1,25 +1,32 @@
 .header
-  .container
-    .section_main
-      .top
-        .logo 
-          p ВА
-        .menu
-          .menu_item Обо мне
-          .menu_item Навыки
-          .menu_item Работы
-          .menu_item Отзывы
+  section.fullscreen-section.section_main
+    .container.main_container
+      header.top
+        .logo
+          a.logo(href="") ВА 
+        .menu 
+            nav.menu
+              ul.menu_list
+                - var menuButtons = ["Обо мне", "Навыки", "Работы", "Отзывы"];
+                  each item in menuButtons 
+                    li.menu_item
+                      a(href="#").menu_link #{item}
         .social
-          .soc_icon 
-          .soc_icon
-          .soc_icon
-          .soc_icon
-
-      .main_subtitle 
-        p Личный сайт
-        p веб разработчика
-      .main_title 
-        h1 Владимир  Астаханов
+          ul.socials
+            - var socialButtons = ['insta', 'vk', 'github', 'envelope'];
+            each item in socialButtons
+              li.socials_item
+                a(href='#').socials_link
+                  +icon(item, 'socials_icon')
+      .user_title
+        .userinfo
+          .main_subtitle 
+            p Личный сайт
+            p веб разработчика
+          .main_title 
+            h1 Владимир  Астаханов
       //-   include contact
       .scroll
-        p Скролл
+        .scroll_down
+          a(href="").scroll_down_btn Скролл
+  include about
