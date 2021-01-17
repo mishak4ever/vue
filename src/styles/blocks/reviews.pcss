@@ -10,10 +10,9 @@
 
 .reviews_header {
   display: flex;
-  /* align-items: center; */
   justify-content: space-between;
   margin-bottom: 95px;
-  padding-right: 30%;
+  padding-right: 50%;
 }
 
 .reviews_title {
@@ -108,7 +107,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -122,6 +121,7 @@
 .reviews_content {
   overflow: hidden;
   display: flex;
+  width: 75%;
 }
 
 .reviews_content-item {
@@ -133,8 +133,8 @@
   &:before {
     content: "";
     display: block;
-    width: 22%;
-    height: 25%;
+    width: 20%;
+    height: 35%;
     background: svg-load("quote.svg", fill=$light-grey) center center / contain
       no-repeat;
     top: 0;

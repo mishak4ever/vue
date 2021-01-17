@@ -7,6 +7,7 @@
   "bp-tablets": "768px",
   "bp-phones": "480px",
   "text-color-dark": "#464E62",
+  "text-color-white": "#FFFFFF",
   "dark-grey": "#252830",
   "light-grey": "#DDE3EC",
   "link": "#586ED3",

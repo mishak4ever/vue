@@ -1,0 +1,28 @@
+section.footer
+  .container.footer_container
+    .copyright
+      .cr_date
+        .cr_year &copy; 2020 
+      .cr_userinfo
+        .cr_name Владимир Астаханов
+        .cr_user_text Личный сайт веб - разработчика
+    .footer_data
+      nav.menu
+        ul.menu_list
+          each item in menuButtons 
+            li.menu_item
+              a(href="#").menu_link #{item}
+      .footer_content
+        .footer__data-col
+          .footer__data-text
+            p Этот сайт я сделал в рамках обучения в Школе онлайн образования Loftschool
+          .footer__data-socials
+            ul.socials.socials--round-borders
+              each item in socialButtons
+                li.socials_item
+                  a(href="#").socials_link
+                    +icon(item, 'socials_icon')
+        .footer__data-col
+          .text-quote__text
+            p Всегда пишите код так, будто сопровождать его будет склонный к насилию психопат, который знает где вы живете 
+          .text-quote__author Martin Golding
