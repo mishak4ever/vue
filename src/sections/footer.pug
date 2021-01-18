@@ -10,7 +10,7 @@ section.footer
       nav.menu
         ul.menu_list
           each item in menuButtons 
-            li.menu_item
+            li.menu_item.menu_item_bottom_menu
               a(href="#").menu_link #{item}
       .footer_content
         .footer__data-col
@@ -21,7 +21,7 @@ section.footer
               each item in socialButtons
                 li.socials_item
                   a(href="#").socials_link
-                    +icon(item, 'socials_icon')
+                    +icon(item, 'socials_icon socials_icon_bottom_menu')
         .footer__data-col
           .text-quote__text
             p Всегда пишите код так, будто сопровождать его будет склонный к насилию психопат, который знает где вы живете 
