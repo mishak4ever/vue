@@ -2,7 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 24%;
+  /* padding: 0 24%; */
+  margin: 0 auto;
+  max-width: 626px;
 }
 
 
@@ -11,13 +13,29 @@
   display: flex;
   text-align: center;
   flex-direction: column;
+  @include desktop {
+    text-align: flex-start;
+    flex-direction: row;
+  }
+  @include tablets {
+    text-align: center;
+    flex-direction: column;
+  }
 }
 
 .main_subtitle {
   font-size: 18px;
   color: rgba($text-color, 0.4);
-  margin-bottom: 0;
+  margin-bottom: 24px;
+  /* margin-top: 24px; */
   padding-top: 8px;
+  min-width: 165px;
+  @include desktop {
+    text-align: right;
+  }
+  @include tablets {
+    text-align: center;
+  }
 }
 
 .main_subtitle p {
@@ -28,8 +46,14 @@
 }
 
 .main_title {
-  margin-top: 24px;
+  max-width: 432px;
   line-height: 1;
+  @include desktop {
+    margin-left: 34px;
+  }
+  @include phones {
+    margin: 0 auto;
+  }
 }
 
 .main_title h1 {
@@ -37,4 +61,12 @@
   font-size: 72px;
   line-height: 60px;
   color: $text-color-dark;
+  @include tablets {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  @include phones {
+    font-size: 48px;
+    line-height: 48px;
+  }
 }

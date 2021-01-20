@@ -1,23 +1,25 @@
 .section_main
   section.fullscreen-section
     .container.hero_container
-      header.top
-        .logo
-          a.logo(href="") ВА 
-        .menu 
-          nav.menu
+      header.header_main
+        .top
+          .logo
+            a.logo(href="") ВА 
+          .menu 
             ul.menu_list
               - var menuButtons = ["Обо мне", "Навыки", "Работы", "Отзывы"];
                 each item in menuButtons 
                   li.menu_item.menu_item_top_menu
                     a(href="#").menu_link #{item}
-        .social
-          ul.socials
-            - var socialButtons = ['insta', 'vk', 'github', 'envelope'];
-            each item in socialButtons
-              li.socials_item
-                a(href='#').socials_link
-                  +icon(item, 'socials_icon socials_icon_top_menu')
+          .social
+            ul.socials
+              - var socialButtons = ['insta', 'vk', 'github', 'envelope'];
+              each item in socialButtons
+                li.socials_item
+                  a(href='#').socials_link
+                    +icon(item, 'socials_icon socials_icon_top_menu')
+          .menu_button
+            +icon('menu', 'socials_icon socials_icon_top_menu')
       .user_title
         .userinfo
           .main_subtitle 
