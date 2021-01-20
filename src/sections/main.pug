@@ -1,23 +1,23 @@
-.header
-  section.fullscreen-section.section_main
-    .container.main_container
+.section_main
+  section.fullscreen-section
+    .container.hero_container
       header.top
         .logo
           a.logo(href="") ВА 
         .menu 
-            nav.menu
-              ul.menu_list
-                - var menuButtons = ["Обо мне", "Навыки", "Работы", "Отзывы"];
-                  each item in menuButtons 
-                    li.menu_item
-                      a(href="#").menu_link #{item}
+          nav.menu
+            ul.menu_list
+              - var menuButtons = ["Обо мне", "Навыки", "Работы", "Отзывы"];
+                each item in menuButtons 
+                  li.menu_item.menu_item_top_menu
+                    a(href="#").menu_link #{item}
         .social
           ul.socials
             - var socialButtons = ['insta', 'vk', 'github', 'envelope'];
             each item in socialButtons
               li.socials_item
                 a(href='#').socials_link
-                  +icon(item, 'socials_icon')
+                  +icon(item, 'socials_icon socials_icon_top_menu')
       .user_title
         .userinfo
           .main_subtitle 
@@ -25,8 +25,9 @@
             p веб разработчика
           .main_title 
             h1 Владимир  Астаханов
-      //-   include contact
       .scroll
         .scroll_down
           a(href="").scroll_down_btn Скролл
   include about
+.triangles_bottom
+  include triangles

@@ -1,20 +1,30 @@
 .section_about {
-  /* margin-top: 176px; */
-  /* margin-left: 411px; */
-  width: 1006px;
+  width: 100%;
   padding-top: 176px;
-  padding-bottom: 267px;
-  /* height: 380px; */
+  padding-bottom: 167px;
   display: flex;
-  text-align: left;
+  align-items: center;
   justify-content: space-between;
 }
 
+.about_block {
+  flex: 0.7;
+  /* padding-right: 10%; */
+  text-align: left;
+}
+
+.about_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .about_user {
-  width: 36%;
+  width: 30%;
   display: flex;
   text-align: left;
   flex-direction: column;
+  align-items: flex-end;
 }
 
 .about_avatar {
@@ -32,7 +42,6 @@
   align-items: flex-start;
   text-align: left;
   flex-wrap: wrap;
-  /* color: $text-color; */
   font-weight: 600;
   font-size: 16px;
   line-height: 22px;
@@ -53,8 +62,8 @@
 }
 
 .about_text {
-  width: 56%;
-  height: 350px;
+  width: 60%;
+  margin-left: 150px;
   padding-top: 2px;
   display: flex;
   text-align: left;
@@ -64,6 +73,9 @@
   justify-content: space-between;
 }
 
+.welcome {
+  margin-bottom: 77px;
+}
 .about_text .welcome {
   display: flex;
   height: 183px;
@@ -83,13 +95,14 @@
   line-height: 49px;
 }
 
-.about_text .quote {
-    width: 100%;
+.about_text .quote_main {
+  width: 100%;
   line-height: 30px;
   font-style: italic;
   display: flex;
   justify-content: space-between;
   &:before {
+    margin-left: -50px;
     content: "*";
     display: block;
     color: rgba(red, 0.5);
@@ -99,7 +112,7 @@
   }
 }
 
-.about_text .quote .text {
+.about_text .quote_main .text {
   color: rgba($text-color, 0.8);
   flex: 20;
 }
