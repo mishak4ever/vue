@@ -40,7 +40,7 @@
 }
 
 .skills__item {
-  width: 90%;
+  /* width: 90%; */
   margin-bottom: 30px;
 }
 
@@ -48,6 +48,10 @@
   position: relative;
   width: 138px;
   height: 138px;
+  @include tablets {
+    width: 115px;
+    height: 115px;
+  }
 }
 
 .skill__circle {
@@ -86,6 +90,9 @@
   flex-wrap: wrap;
   margin-left: -4%;
   justify-content: space-between;
+  @include phones {
+    justify-content: center;
+  }
 }
 
 .skills-row__item {
