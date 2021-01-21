@@ -55,7 +55,7 @@
     font-size: 400px;
     font-weight: 800;
     margin-left: -8%;
-    color: rgba($text-color, .05);
+    color: rgba($text-color, 0.05);
   }
   @include phones {
     width: 100%;
@@ -73,7 +73,7 @@
   top: 0;
   right: 0;
   width: 100%;
-  height: 100%; 
+  height: 100%;
 }
 
 .works-slider__fullpic-container {
@@ -81,7 +81,7 @@
   top: 0;
   right: 0;
   width: 100%;
-  height: 100%; 
+  height: 100%;
 }
 
 .works-slider__fullpic {
@@ -198,11 +198,6 @@
   margin-bottom: 26px;
 }
 
-.works-slider__tag-item {
-  margin-right: 15px;
-  margin-bottom: 15px;
-}
-
 .works-slider__title {
   font-size: 30px;
   margin-bottom: 35px;
@@ -238,7 +233,12 @@
   &:hover {
     color: $text-color-dark;
     &:before {
-      background: svg-load("icon_link.svg", fill=$text-color-dark, width=100%, height=100%)
+      background: svg-load(
+        "icon_link.svg",
+        fill=$text-color-dark,
+        width=100%,
+        height=100%
+      );
     }
   }
 }
@@ -255,6 +255,7 @@
 
 .works-slider__tag-item {
   padding: 13px 21px;
+  margin-left: 0.7vw;
   background: $tag-color;
   font-size: 15px;
   font-weight: 600;

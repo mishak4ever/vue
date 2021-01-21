@@ -1,18 +1,36 @@
 .reviews {
   background: url("../images/content/mountain_budda.jpg")  center top / cover no-repeat;;
-  /* margin-top: 126px; */
   padding-top: 226px;
   padding-bottom: 198px;
+  @include tablets {
+    padding-top: 170px;
+    padding-bottom: 150px;
+  }
+  @include phones {
+    padding-top: 150px;
+    padding-bottom: 70px;
+  }
 }
 .reviews_container {
-  padding-right: 10%;
+  padding-right: 26%;
+
+  @include desktop {
+    padding-right: 10%;
+  }
+  @include tablets {
+    padding-right: 0;
+  }
 }
 
 .reviews_header {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   margin-bottom: 78px;
-  padding-right: 50%;
+  @include phones {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 33px;
+  }
 }
 
 .reviews_title {
@@ -21,6 +39,15 @@
   font-weight: bold;
   font-size: 36px;
   line-height: 49px;
+  @include tablets {
+    margin-right: 29px;
+    font-size: 30px;
+    line-height: 41px;
+  }
+  @include phones {
+    margin-right: 0%;
+    margin-bottom: 25px;
+  }
 }
 
 .reviews_buttons {
@@ -101,14 +128,39 @@
   }
 }
 
+
 .quote {
-  padding-left: 4%;
+  padding-left: 24%;
   height: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
+
+  @include tablets {
+    padding-left: 0;
+  }
+
+  &:before {
+    content: "";
+    display: block;
+    width: 18%;
+    height: 37%;
+    opacity: .05;
+    background: svg-load('quote.svg', fill=$text-color) center center / contain no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @include tablets {
+      width: 8%;
+      height: 17%;
+      background: none;
+    }
+    @include phones {
+      background: none;
+    }
+  }
 }
 
 .review_text {
@@ -119,27 +171,30 @@
 }
 
 .reviews_content {
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
-  width: 75%;
+  
+  @include tablets {
+    width: 100%;
+    margin-left: 0;
+  }
+  @include phones {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .reviews_content-item {
   display: flex;
   flex-shrink: 0;
-  padding-right: 30px;
+  margin-right: 30px;
   width: 50%;
 
-  &:before {
-    content: "";
-    display: block;
-    width: 20%;
-    height: 35%;
-    background: svg-load("quote.svg", fill=$light-grey) center center / contain
-      no-repeat;
-    top: 0;
-    left: 0;
+  @include phones {
+    /* margin-right: 0; */
+    width: 100%;
   }
+
   &:last-child {
     margin-right: 0;
   }
@@ -152,11 +207,15 @@
 
 .user_block .avatar {
   margin-right: 30px;
+}
+
+.user-min__pic-wrapper {
   width: 74px;
   height: 74px;
   border-radius: 50%;
   overflow: hidden;
 }
+
 .user_block .info {
   display: flex;
   flex-direction: column;
