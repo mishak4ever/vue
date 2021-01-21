@@ -15,11 +15,20 @@
 .values__title-container {
   width: 40%;
   margin-left: 6%;
-  margin-left: 0;
+  @include desktop {
+    width: 42%;
+    margin-left: 0;
+  }
+  @include tablets {
+    width: 68%;
+    text-align: center;
+  }
   @include phones {
     width: 100%;
-    margin: 0 auto;
+    margin-left: 0;
+    text-align: left;
   }
+
 }
 
 .values__title-text {
@@ -43,5 +52,8 @@
 }
 
 .values__widget-container {
-  width: 60%;
+  width: 66%;
+  @include tablets {
+    width: 95%;
+  }
 }

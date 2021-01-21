@@ -1,21 +1,38 @@
 .skills-section {
   padding: 140px 0 313px 0;
   width: 100%;
+  @include tablets {
+    padding-bottom: 80px;
+  }
 }
 
 .skills_container {
+
   position: relative;
+  @include tablets {
+    padding-bottom: 350px;
+  }
   &:before {
     content: "";
     position: absolute;
-    background: url("../images/content/bag.png") no-repeat;
+    background: url("~images/content/bag.png") left bottom / contain no-repeat;
     display: block;
     bottom: 5%;
-    height: 100%;
-    width: 69%;
+    height: 79%;
+    width: 50%;
     left: -10%;
-    top: 10%
-  }
+    @include tablets {
+      bottom: 0;
+      left: 50%;
+      height: 300px;
+      transform: translateX(-50%);
+      background-position: center center;
+    }
+
+    @include phones {
+      width: 100%;
+    }
+  }  
 }
 
 .skills {
@@ -23,7 +40,7 @@
 }
 
 .skills__item {
-  width:90%;
+  width: 90%;
   margin-bottom: 30px;
 }
 
