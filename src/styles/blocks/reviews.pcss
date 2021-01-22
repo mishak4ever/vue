@@ -1,5 +1,6 @@
 .reviews {
-  background: url("../images/content/mountain_budda.jpg")  center top / cover no-repeat;;
+  background: url("../images/content/mountain_budda.jpg") center top / cover
+    no-repeat;
   padding-top: 226px;
   padding-bottom: 198px;
   @include tablets {
@@ -26,7 +27,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 78px;
-  @include phones {
+  @include tablets {
     flex-direction: column;
     align-items: center;
     margin-bottom: 33px;
@@ -40,7 +41,8 @@
   font-size: 36px;
   line-height: 49px;
   @include tablets {
-    margin-right: 29px;
+    margin-bottom: 25px;
+    margin-right: 0px;
     font-size: 30px;
     line-height: 41px;
   }
@@ -54,14 +56,26 @@
   display: flex;
 }
 
+.reviews_buttons button {
+  background: transparent;
+}
+
 .reviews_btn {
+  color: $text-color;
   width: 50px;
   height: 50px;
-  border: 1px solid currentColor;
+  border: 2px solid;
   position: relative;
   border-radius: 50%;
   margin-right: 30px;
   display: block;
+  &:hover {
+    color: $link;
+    &:before {
+      color: $link;
+      opacity: 1;
+    }
+  }
 }
 .reviews_buttons .prev {
   &:before {
@@ -77,13 +91,21 @@
     width: 16px;
     height: 16px;
     position: absolute;
-    top: 30%;
-    left: 30%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0.3;
   }
   &:hover {
     &:before {
       opacity: 1;
+      background: svg-load(
+          "arrow-left.svg",
+          fill=$link,
+          width=100%,
+          height=100%
+        )
+        center center no-repeat;
     }
   }
 }
@@ -101,13 +123,21 @@
     width: 16px;
     height: 16px;
     position: absolute;
-    top: 30%;
-    left: 30%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0.3;
   }
   &:hover {
     &:before {
       opacity: 1;
+      background: svg-load(
+          "arrow-right.svg",
+          fill=$link,
+          width=100%,
+          height=100%
+        )
+        center center no-repeat;
     }
   }
 }
@@ -128,7 +158,6 @@
   }
 }
 
-
 .quote {
   padding-left: 24%;
   height: 100%;
@@ -146,8 +175,9 @@
     display: block;
     width: 18%;
     height: 37%;
-    opacity: .05;
-    background: svg-load('quote.svg', fill=$text-color) center center / contain no-repeat;
+    opacity: 0.05;
+    background: svg-load("quote.svg", fill=$text-color) center center / contain
+      no-repeat;
     position: absolute;
     top: 0;
     left: 0;
@@ -173,10 +203,14 @@
 .reviews_content {
   /* overflow: hidden; */
   display: flex;
-  
+
   @include tablets {
     width: 100%;
     margin-left: 0;
+  }
+
+  @include tablets600 {
+    width: 100%;
   }
   @include phones {
     width: 100%;
@@ -190,6 +224,10 @@
   margin-right: 30px;
   width: 50%;
 
+  @include tablets600 {
+    /* margin-right: 0; */
+    width: 100%;
+  }
   @include phones {
     /* margin-right: 0; */
     width: 100%;

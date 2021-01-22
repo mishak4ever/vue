@@ -9,9 +9,9 @@ section.footer
     .footer_data
       nav.footer_menu
         ul.menu_list
-          each item in menuButtons 
+          - for (let i = 0; i < menuButtons.length; i++)
             li.menu_item.menu_item_bottom_menu
-              a(href="#").menu_link #{item}
+              a(href=`#${menuLinks[i]}`).menu_link #{menuButtons[i]}
       .footer_content
         .footer__data-col
           .footer__data-text
@@ -20,7 +20,7 @@ section.footer
             ul.socials.socials--round-borders
               each item in socialButtons
                 li.socials_item
-                  a(href="#").socials_link
+                  a(href="#" target="_blank").socials_link
                     +icon(item, 'socials_icon socials_icon_bottom_menu')
         .footer__data-col
           .text-quote__text

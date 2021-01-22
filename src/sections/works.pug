@@ -1,4 +1,4 @@
-.my_works
+.my_works#section_works
 	.container.my_works_container
 		.section-title.works_title Мои работы
 		.works_content
@@ -7,12 +7,12 @@
 					.works-slider__pics-content
 						+image('content/slider-1.png', 'works-slider__fullpic')
 						.works-slider__buttons
-							a(href="#").works-slider__btn.prev
-							a(href="#").works-slider__btn.next
+							button(href="#").works-slider__btn.prev
+							button(href="#").works-slider__btn.next
 						ul.works-slider__thumbs
 							- for (var i = 3; i > 0; i--)
 								li.works-slider__thumb-item(class=`${i === 1 ? 'active' : ''}`)
-									a(href="").works-slider__thumb-link
+									a(href="#" target="_blank").works-slider__thumb-link
 										+image(`content/slider-${i}.png`, 'works-slider__thumb')
 				.works-slider__data
 					ul.works-slider__tags

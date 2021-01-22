@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   margin: 0 20px 0 20px;
-  @include phones {
+  @include tablets600 {
     flex-direction: column;
   }
 }
@@ -29,10 +29,17 @@
   }
   @include tablets {
     width: 30%;
+    margin-bottom: 30px;
+  }
+  @include tablets600 {
+    /* flex-direction: row; */
+    /* justify-content: space-between; */
+    align-items: center;
+    text-align: center;
+    width: 100%;
   }
   @include phones {
     width: 100%;
-    margin-bottom: 30px;
   }
 
 }
@@ -72,7 +79,7 @@
     margin-bottom: 47px;
   }
   height: 90%;
-  @include phones {
+  @include tablets600 {
     width: 100%;
   }
 }
@@ -89,6 +96,12 @@
   color: rgba($text-color-white, 0.45);
   @include tablets {
     flex-direction: column;
+  }
+  @include tablets600 {
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
   }
 }
 
@@ -118,6 +131,10 @@
   }
 }
 
+.footer__data-socials .socials {
+  justify-content: center;
+}
+
 .footer_menu{
   margin-bottom: 60px;
   @include tablets {
@@ -126,6 +143,7 @@
   .menu_list {
     justify-content: flex-start;
     @include tablets {
+      justify-content: center;
       flex-wrap: wrap;
     }
   }
