@@ -39,7 +39,8 @@
   width: 66%;
   position: relative;
   z-index: 10;
-  height: 550px;
+  height: 36vw;
+  max-height: 550px;
   @include tablets {
     margin-bottom: 105px;
     width: 86%;
@@ -165,7 +166,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    /* transform: translate (-50%, -50%); */
     transform: translate(-50%, -50%);
     opacity: 0.3;
   }
@@ -228,7 +228,8 @@
 
 .works-slider__tags {
   display: flex;
-  margin-bottom: 26px;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .works-slider__title {
@@ -291,7 +292,8 @@
 
 .works-slider__tag-item {
   padding: 13px 21px;
-  margin-left: 0.7vw;
+  margin-bottom: 20px;
+  margin-right: 0.7vw;
   background: $tag-color;
   font-size: 15px;
   font-weight: 600;

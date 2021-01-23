@@ -1,0 +1,54 @@
+script(type="text/x-template")#works-container
+  .works-slider
+    display(
+      :currentWork1="currentWork"
+      :works="works"
+    )
+    info(
+      :currentWork="currentWork"
+    )
+
+script(type="text/x-template")#works-display
+  .works-slider__pics(data-slide="1")
+    .works-slider__pics-content
+      img(:src="currentWork1.photo").works-slider__fullpic
+      //- +image('content/slider-1.png', 'works-slider__fullpic')
+      thumbs(
+        :works="works"
+        :currentWork="currentWork1"
+      )
+      buttons
+
+
+
+script(type="text/x-template")#works-info
+  .works-slider__data
+    .worksslider_tags
+      tags
+    .works-slider__title {{currentWork.title}}
+    .works-slider__desc
+      p {{currentWork.desc}}
+    .works-slider__link 
+      a(:href="currentWork.link").iconed-link Посмотреть сайт
+
+script(type="text/x-template")#works-thumbs
+  ul.works-slider__thumbs
+    //- - for (var i = 3; i > 0; i--)
+    li.works-slider__thumb-item(
+      v-for="slide in works" :key="slide.id"
+      :class="{active: currentWork.id==slide.id}"
+      )
+        a(href="#" target="_blank").works-slider__thumb-link
+          img(:src="slide.photo").works-slider__thumb
+
+script(type="text/x-template")#works-buttons
+  .works-slider__buttons
+    button(href="#").works-slider__btn.prev
+    button(href="#").works-slider__btn.next
+
+script(type="text/x-template")#works-tags
+  - var tags = ['HTML', 'CSS', 'JavaScript'];
+  ul.works-slider__tags
+    each item in tags
+      li.works-slider__tag-item 
+        .tag #{item}
