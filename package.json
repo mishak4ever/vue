@@ -70,7 +70,10 @@
     "pug-cli": "^1.0.0-alpha6",
     "request": "^2.88.0",
     "signale": "^1.4.0",
+    "swiper": "^6.4.8",
     "vue": "^2.6.12",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-match-media": "^1.0.3",
     "vue-router": "^3.0.2",
     "vuejs": "^3.0.1"
   }

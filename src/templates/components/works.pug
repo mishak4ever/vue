@@ -1,30 +1,37 @@
 script(type="text/x-template")#works-container
   .works-slider
     display(
-      :currentWork1="currentWork"
-      :works="works"
+      :currentWork1="currentWork",
+      :works="works",
+      @dispslide="compslide",
+      :currentIndex="currentIndex"
     )
     info(
       :currentWork="currentWork"
     )
 
 script(type="text/x-template")#works-display
-  .works-slider__pics(data-slide="1")
+  .works-slider__pics(:data-slide="currentSlide")
     .works-slider__pics-content
       img(:src="currentWork1.photo").works-slider__fullpic
-      //- +image('content/slider-1.png', 'works-slider__fullpic')
       thumbs(
-        :works="works"
+        :works="reversedWorks",
         :currentWork="currentWork1"
       )
-      buttons
+      buttons(
+        @btslide="$emit('dispslide', $event);",
+        :notHoverUp="maxUp",
+        :notHoverDown="maxDown"
+      )
 
 
 
 script(type="text/x-template")#works-info
   .works-slider__data
     .worksslider_tags
-      tags
+      tags(
+        :tags="tagsArray"
+      )
     .works-slider__title {{currentWork.title}}
     .works-slider__desc
       p {{currentWork.desc}}
@@ -42,13 +49,19 @@ script(type="text/x-template")#works-thumbs
           img(:src="slide.photo").works-slider__thumb
 
 script(type="text/x-template")#works-buttons
+  //- pre {{notHoverUp}}
   .works-slider__buttons
-    button(href="#").works-slider__btn.prev
-    button(href="#").works-slider__btn.next
+    button(
+      @click="$emit('btslide', 'next');" 
+      :class="{nothover: notHoverUp}"
+    ).works-slider__btn.prev
+    button(
+      @click="$emit('btslide', 'prev');" 
+      :class="{nothover: notHoverDown}"
+      ).works-slider__btn.next
 
 script(type="text/x-template")#works-tags
-  - var tags = ['HTML', 'CSS', 'JavaScript'];
+  //- - var tags = ['HTML', 'CSS', 'JavaScript'];
   ul.works-slider__tags
-    each item in tags
-      li.works-slider__tag-item 
-        .tag #{item}
+    li.works-slider__tag-item(v-for="tag in tags")
+      .tag {{tag}}
