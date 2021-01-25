@@ -4,6 +4,7 @@ script(type="text/x-template")#works-container
       :currentWork1="currentWork",
       :works="works",
       @dispslide="compslide",
+      @thslide="thslide",
       :currentIndex="currentIndex"
     )
     info(
@@ -17,6 +18,7 @@ script(type="text/x-template")#works-display
       thumbs(
         :works="reversedWorks",
         :currentWork="currentWork1"
+        @thslide="$emit('thslide', $event);",
       )
       buttons(
         @btslide="$emit('dispslide', $event);",
@@ -44,9 +46,10 @@ script(type="text/x-template")#works-thumbs
     li.works-slider__thumb-item(
       v-for="slide in works" :key="slide.id"
       :class="{active: currentWork.id==slide.id}"
+      @click="$emit('thslide', slide.id);" 
       )
-        a(href="#" target="_blank").works-slider__thumb-link
-          img(:src="slide.photo").works-slider__thumb
+        //- a(href="#" target="_blank").works-slider__thumb-link
+        img(:src="slide.photo").works-slider__thumb
 
 script(type="text/x-template")#works-buttons
   //- pre {{notHoverUp}}

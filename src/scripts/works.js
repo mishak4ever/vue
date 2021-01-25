@@ -6,7 +6,7 @@ const thumbs = {
 };
 
 const buttons = {
-  props: ["notHoverUp","notHoverDown"],
+  props: ["notHoverUp", "notHoverDown"],
   template: "#works-buttons",
 };
 
@@ -26,7 +26,7 @@ const display = {
       return this.currentIndex + 1;
     },
     maxUp() {
-      return this.currentIndex >= this.works.length-1;
+      return this.currentIndex >= this.works.length - 1;
     },
     maxDown() {
       return this.currentIndex <= 0;
@@ -108,6 +108,13 @@ new Vue({
           this.works.pop();
           this.currentIndex--;
           break;
+      }
+    },
+    thslide(slide_id) {
+      while (this.currentWork.id != slide_id) {
+        this.works.push(this.works[0]);
+        this.works.shift();
+        this.currentIndex = this.currentWork.id -1;
       }
     },
   },
