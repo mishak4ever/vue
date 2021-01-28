@@ -8,7 +8,9 @@
       .header
         .title Блок Обо мне
         iconed-btn(type="iconed", title="Добавить в группу")
-    category
+    ul.skills
+      li.item(v-for="category in categories", :key="category.id")
+        category
 </template>
 
 <script>
@@ -24,11 +26,11 @@ export default {
     user,
     navigation,
     iconedBtn,
-    category
+    category,
   },
   data() {
     return {
-      categories: [],
+      categories: ["Категория1", "Категория2", "Категория3"],
     };
   },
 };
