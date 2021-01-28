@@ -41,11 +41,12 @@ export default {
       type: String,
       default: ""
     },
-    blocked: Boolean
+    blocked: Boolean,
+    editModeByDefault:Boolean,
   },
   data() {
     return {
-      editmode: false,
+      editmode: this.editModeByDefault,
       title: this.value
     };
   },
