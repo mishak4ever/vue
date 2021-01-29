@@ -1,13 +1,22 @@
 <template lang="pug">
 .category-component
   card
-    editLine(slot="title", v-model="title", editModeByDefault)
+    editLine(
+      slot="title",
+      v-model="catTitle",
+      :editModeByDefault="empty",
+      @remove="$emit('remove', $event)"
+    )
     .category-content(slot="content")
-      ul.skills
+      ul.skills(v-if="empty == false")
         li.item(v-for="skill of skills", :key="skill.id")
-          skill(:skill="skill")
+          skill(
+            :skill="skill",
+            @remove="$emit('removeSkill', $event)",
+            @approve="$emit('editSkill', $event)"
+          )
       .add-skill
-        skillAdd
+        skillAdd(:blocked="empty")
 </template>
 
 <script>
@@ -15,23 +24,6 @@ import card from "../card";
 import editLine from "../editLine";
 import skill from "../skill";
 import skillAdd from "../skillAdd";
-const skills = [
-  {
-    id: 0,
-    title: "Html",
-    percent: 80,
-  },
-  {
-    id: 1,
-    title: "Css",
-    percent: 20,
-  },
-  {
-    id: 2,
-    title: "Javascript",
-    percent: 50,
-  },
-];
 
 export default {
   components: {
@@ -48,12 +40,12 @@ export default {
     },
     skills: {
       type: Array,
-      default: () => skills,
+      default: () => [],
     },
   },
   data() {
     return {
-      title: "",
+      catTitle: this.title,
     };
   },
 };
