@@ -13,7 +13,7 @@ export default {
 export const defaultView = () => ({
   components: { skillAdd },
   template: `
-    <skillAdd />
+    <skillAdd @addskill="onClick" />
   `,
   methods,
 });

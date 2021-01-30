@@ -12,11 +12,14 @@
         li.item(v-for="skill of skills", :key="skill.id")
           skill(
             :skill="skill",
-            @remove="$emit('removeSkill', $event)",
-            @approve="$emit('editSkill', $event)"
+            @remove="$emit('catEvent', { type: 'removeSkill', data: $event })",
+            @approve="$emit('catEvent', { type: 'editSkill', data: $event })"
           )
       .add-skill
-        skillAdd(:blocked="empty")
+        skillAdd(
+          :blocked="empty",
+          @addskill="$emit('catEvent', { type: 'addSkill', data: $event })"
+        )
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-  <div class="edit-line-component" :class="{'blocked' : blocked}">
+  <div class="edit-line-component" :class="{ blocked: blocked }">
     <div class="title" v-if="editmode === false">
-      <div class="text">{{value}}</div>
+      <div class="text">{{ title }}</div>
       <div class="icon">
         <icon symbol="pencil" grayscale @click="editmode = true"></icon>
       </div>
@@ -10,8 +10,8 @@
       <div class="input">
         <app-input
           placeholder="Название новой группы"
-          :value="value"
-          :errorText="errorText"
+          :value="title"
+          :errorMessage="titleError"
           @input="$emit('input', $event)"
           @keydown.native.enter="onApprove"
           autofocus="autofocus"
@@ -23,7 +23,7 @@
           <icon symbol="tick" @click="onApprove"></icon>
         </div>
         <div class="button-icon">
-          <icon symbol="cross" @click="$emit('remove')"></icon>
+          <icon symbol="cross" @click="onCancel()"></icon>
         </div>
       </div>
     </div>
@@ -35,34 +35,41 @@ export default {
   props: {
     value: {
       type: String,
-      default: ""
+      default: "",
     },
     errorText: {
       type: String,
-      default: ""
+      default: "",
     },
     blocked: Boolean,
-    editModeByDefault:Boolean,
+    editModeByDefault: Boolean,
   },
   data() {
     return {
       editmode: this.editModeByDefault,
-      title: this.value
+      title: this.value,
+      titleError: this.errorText,
     };
   },
   methods: {
     onApprove() {
-      if (this.title.trim() === this.value.trim()) {
-        this.editmode = false;
-      } else {
+      this.titleError = this.value.trim() === "" ? "Пустое поле" : "";
+      if (this.titleError == "") {
+        this.title = this.value;
         this.$emit("approve", this.value);
+        this.editmode = false;
       }
-    }
+    },
+    onCancel() {
+      this.editmode = false;
+      this.titleError == ""
+      this.$emit("remove");
+    },
   },
   components: {
     icon: () => import("components/icon"),
-    appInput: () => import("components/input")
-  }
+    appInput: () => import("components/input"),
+  },
 };
 </script>
 

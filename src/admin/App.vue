@@ -17,7 +17,11 @@
       li.item(v-if="showEmptyCat")
         category(empty, @remove="showEmptyCat = false")
       li.item(v-for="category in categories", :key="category.id")
-        category(:title="category.category", :skills="category.skills")
+        category(
+          :title="category.category",
+          :skills="category.skills",
+          @catEvent="catHandler($event)"
+        )
 </template>
 
 <script>
@@ -43,6 +47,11 @@ export default {
   },
   created() {
     this.categories = require("./json/data.json");
+  },
+  methods: {
+    catHandler(event) {
+      console.log(event);
+    },
   },
 };
 </script>
