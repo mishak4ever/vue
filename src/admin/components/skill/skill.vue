@@ -54,9 +54,9 @@ export default {
   methods: {
     editSkill() {
       this.titleError =
-        this.currentSkill.title == "" ? "Поле не может быть пустым" : "";
+        this.currentSkill.title == "" ? "Поле пустое" : "";
       this.valError =
-        this.currentSkill.percent == "" ? "Поле не может быть пустым" : "";
+        this.currentSkill.percent == "" ? "Поле пустое" : "";
       if (this.titleError != "" || this.valError != "") return;
       this.editMode = false;
       this.$emit("approve", this.currentSkill);

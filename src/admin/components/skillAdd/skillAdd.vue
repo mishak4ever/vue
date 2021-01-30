@@ -41,8 +41,8 @@ export default {
   methods: {
     addskill() {
       this.titleError =
-        this.skillTitle == "" ? "Поле не может быть пустым" : "";
-      this.valError = this.skillValue == "" ? "Поле не может быть пустым" : "";
+        this.skillTitle == "" ? "Поле пустое" : "";
+      this.valError = this.skillValue == "" ? "Поле пустое" : "";
       if (this.titleError != "" || this.valError != "") return;
       this.$emit("addskill", {
         title: this.skillTitle,

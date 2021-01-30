@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     onApprove() {
-      this.titleError = this.value.trim() === "" ? "Пустое поле" : "";
+      this.titleError = this.value.trim() == "" ? "Пустое поле" : "";
       if (this.titleError == "") {
         this.title = this.value;
         this.$emit("approve", this.value);
