@@ -3,7 +3,7 @@
   headline 
     user
   navigation
-  .admin-content
+  .admin-content.container
     .content-container
       .header
         .title Блок Обо мне
@@ -48,6 +48,7 @@ export default {
 </script>
 
 <style lang="postcss">
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
 @import "../styles/mixins.pcss";
 @import "../styles/layout/base.pcss";
 </style>
