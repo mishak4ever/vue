@@ -20,6 +20,12 @@ body {
   color: $text-color;
 }
 
+body a {
+  &:hover {
+    color: $link; 
+   } 
+}
+
 .wrapper {
   overflow: hidden;
   min-height: 100%;
@@ -28,14 +34,32 @@ body {
 
 .container {
   margin: 0 auto;
-  /* max-width: 1480px; */
-  width: 85%;
-  width: 1497px;
+  max-width: 1497px;
+  width: 95%;
+
+  @include desktop {
+    max-width: 1097px;
+     width: 95%; 
+  } 
+  
+
+
+  @include tablets {
+    max-width: 688px;
+    width: 95%;
+  }
+
+  @include phones {
+    max-width: 260px;
+    width: 85%;
+  }
+
+
 }
 .maincontent{
     top: 0px;
     margin: 0 auto;
-   width: 1800px;
+    width: 100%; 
 }
 
 

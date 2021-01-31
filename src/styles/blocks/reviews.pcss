@@ -1,18 +1,37 @@
 .reviews {
-  background: url("../images/content/mountain_budda.jpg")  center top / cover no-repeat;;
-  /* margin-top: 126px; */
+  background: url("../images/content/mountain_budda.jpg") center top / cover
+    no-repeat;
   padding-top: 226px;
   padding-bottom: 198px;
+  @include tablets {
+    padding-top: 170px;
+    padding-bottom: 150px;
+  }
+  @include phones {
+    padding-top: 150px;
+    padding-bottom: 70px;
+  }
 }
 .reviews_container {
-  padding-right: 10%;
+  padding-right: 26%;
+
+  @include desktop {
+    padding-right: 10%;
+  }
+  @include tablets {
+    padding-right: 0;
+  }
 }
 
 .reviews_header {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   margin-bottom: 78px;
-  padding-right: 50%;
+  @include tablets {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 33px;
+  }
 }
 
 .reviews_title {
@@ -21,20 +40,45 @@
   font-weight: bold;
   font-size: 36px;
   line-height: 49px;
+  @include tablets {
+    margin-bottom: 25px;
+    margin-right: 0px;
+    font-size: 30px;
+    line-height: 41px;
+  }
+  @include phones {
+    margin-right: 0%;
+    margin-bottom: 25px;
+  }
 }
 
 .reviews_buttons {
   display: flex;
 }
 
+.reviews_buttons button {
+  background: transparent;
+}
+
 .reviews_btn {
+  color: $text-color;
   width: 50px;
   height: 50px;
-  border: 1px solid currentColor;
+  border: 2px solid;
   position: relative;
   border-radius: 50%;
   margin-right: 30px;
   display: block;
+  &:hover {
+    color: $link;
+    &:before {
+      color: $link;
+      opacity: 1;
+    }
+  }
+  &:focus {
+    outline: none;
+  }
 }
 .reviews_buttons .prev {
   &:before {
@@ -50,13 +94,21 @@
     width: 16px;
     height: 16px;
     position: absolute;
-    top: 30%;
-    left: 30%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0.3;
   }
   &:hover {
     &:before {
       opacity: 1;
+      background: svg-load(
+          "arrow-left.svg",
+          fill=$link,
+          width=100%,
+          height=100%
+        )
+        center center no-repeat;
     }
   }
 }
@@ -74,13 +126,21 @@
     width: 16px;
     height: 16px;
     position: absolute;
-    top: 30%;
-    left: 30%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0.3;
   }
   &:hover {
     &:before {
       opacity: 1;
+      background: svg-load(
+          "arrow-right.svg",
+          fill=$link,
+          width=100%,
+          height=100%
+        )
+        center center no-repeat;
     }
   }
 }
@@ -102,13 +162,38 @@
 }
 
 .quote {
-  padding-left: 4%;
+  padding-left: 24%;
   height: 100%;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
+
+  @include tablets {
+    padding-left: 0;
+  }
+
+  &:before {
+    content: "";
+    display: block;
+    width: 18%;
+    height: 37%;
+    opacity: 0.2;
+    background: svg-load("quote.svg", fill=$text-color) center center / contain
+      no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @include tablets {
+      width: 8%;
+      height: 17%;
+      background: none;
+    }
+    @include phones {
+      background: none;
+    }
+  }
 }
 
 .review_text {
@@ -119,27 +204,38 @@
 }
 
 .reviews_content {
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
-  width: 75%;
+
+  @include tablets {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  @include tablets600 {
+    width: 100%;
+  }
+  @include phones {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .reviews_content-item {
   display: flex;
   flex-shrink: 0;
-  padding-right: 30px;
+  margin-right: 30px;
   width: 50%;
 
-  &:before {
-    content: "";
-    display: block;
-    width: 20%;
-    height: 35%;
-    background: svg-load("quote.svg", fill=$light-grey) center center / contain
-      no-repeat;
-    top: 0;
-    left: 0;
+  @include tablets600 {
+    /* margin-right: 0; */
+    width: 100%;
   }
+  @include phones {
+    /* margin-right: 0; */
+    width: 100%;
+  }
+
   &:last-child {
     margin-right: 0;
   }
@@ -152,11 +248,15 @@
 
 .user_block .avatar {
   margin-right: 30px;
+}
+
+.user-min__pic-wrapper {
   width: 74px;
   height: 74px;
   border-radius: 50%;
   overflow: hidden;
 }
+
 .user_block .info {
   display: flex;
   flex-direction: column;

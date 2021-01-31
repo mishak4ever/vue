@@ -1,8 +1,10 @@
-.container.about_container
+.container.about_container#section_about
   .about_block
     .section_about
       .about_user
         .about_avatar
+          .avatar_wrapper
+            +image('content/hero_photo.png', '')
         .about_info
           -
             var userinfo = 
@@ -11,11 +13,10 @@
             .item_info #{item}
       .about_text
         .welcome
-          .welcome_item
+          .welcome_item_title
             p Привет, меня зовут
-          .welcome_item
-            h2 Владимир Астаханов
-          .welcome_item
+          .welcome_item_name Владимир Астаханов
+          .welcome_item_desc
             p 
               |Я занимаюсь разработкой современных сайтов и приложений. 
               |Мне нравится делать интересные и современные проекты.

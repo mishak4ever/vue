@@ -1,10 +1,14 @@
 .my_works {
-  height: 734px;
+  /* height: 734px; */
+  height: 100%;
   margin-bottom: 73px;
 }
 
 .my_works_container {
   height: 100%;
+  @include phones {
+    width: 100%;
+  }
 }
 
 .works_title {
@@ -16,20 +20,32 @@
 
 .works_content {
   padding-bottom: 60px;
+  @include phones {
+    padding-bottom: 0px;
+  }
 }
 
 .works-slider {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  @include tablets {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 }
 
 .works-slider__pics {
   width: 66%;
   position: relative;
   z-index: 10;
-  height: 550px;
-
+  height: 36vw;
+  max-height: 550px;
+  @include tablets {
+    margin-bottom: 105px;
+    width: 86%;
+    height: 360px;
+  }
   &:before {
     content: attr(data-slide);
     position: absolute;
@@ -40,7 +56,20 @@
     font-size: 400px;
     font-weight: 800;
     margin-left: -8%;
-    color: rgba($text-color, .05);
+    color: rgba($text-color, 0.05);
+  }
+  @include tablets600 {
+    width: 100vw;
+    margin-left: -3%;
+    margin-bottom: 60px;
+    &:before {
+      display: none;
+    }
+  }
+  @include phones {
+    width: 100vw;
+    margin-left: -3%;
+    height: 185px;
   }
 }
 
@@ -50,43 +79,51 @@
   top: 0;
   right: 0;
   width: 100%;
-  height: 100%; 
-}
-
-.works-slider__fullpic-container {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%; 
+  height: 100%;
 }
 
 .works-slider__fullpic {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover center center;
 }
 
 .works-slider__thumbs {
   position: absolute;
+  /* background: transparent; */
   right: 0;
   bottom: 0;
   width: 178px;
+  @include tablets {
+    width: 116px;
+  }
+  @include phones {
+    display: none;
+  }
+}
+
+.works-slider__thumbs .button {
+  background: transparent;
 }
 
 .works-slider__thumb-item {
   height: 100px;
+  width: 100%;
   transition: 0.2s;
   &.active,
   &:hover {
     outline: 3px solid #f29400;
+  }
+
+  @include tablets {
+    height: 65px;
   }
 }
 
 .works-slider__thumb {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover center center;
 }
 
 .works-slider__buttons {
@@ -95,6 +132,10 @@
   right: 0;
   display: flex;
   color: $text-color;
+  @include phones {
+    top: initial;
+    bottom: 0;
+  }
 }
 
 .arrow-icons {
@@ -102,11 +143,22 @@
 }
 
 .works-slider__btn {
+  /* color:  $dark-grey; */
   width: 50px;
   height: 50px;
   background: $dark-grey;
+  border: 2px solid $dark-grey;
   display: block;
   position: relative;
+  &:not(.nothover) {
+    &:hover {
+      border-color: $link;
+      color: $link;
+    }
+  }
+  &:focus {
+    outline: none;
+  }
 }
 .works-slider__buttons .prev {
   &:before {
@@ -117,13 +169,23 @@
     width: 16px;
     height: 16px;
     position: absolute;
-    top: 40%;
-    left: 40%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0.3;
   }
-  &:hover {
-    &:before {
-      opacity: 1;
+  &:not(.nothover) {
+    &:hover {
+      &:before {
+        opacity: 1;
+        background: svg-load(
+            "arrow-up.svg",
+            fill=$link,
+            width=100%,
+            height=100%
+          )
+          center center no-repeat;
+      }
     }
   }
 }
@@ -136,19 +198,49 @@
     width: 16px;
     height: 16px;
     position: absolute;
-    top: 40%;
-    left: 40%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0.3;
   }
-  &:hover {
-    &:before {
-      opacity: 1;
+  &:not(.nothover) {
+    &:hover {
+      &:before {
+        opacity: 1;
+        background: svg-load(
+            "arrow-down.svg",
+            fill=$link,
+            width=100%,
+            height=100%
+          )
+          center center no-repeat;
+      }
     }
   }
 }
 
+/* .works-slider__buttons .nothover {
+  &:hover {
+    width: 18px;
+  }
+} */
+
 .works-slider__data {
   width: 24%;
+  @include tablets {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 2%;
+    text-align: center;
+  }
+
+  @include phones {
+    padding: 0 5%;
+    text-align: left;
+    align-items: flex-start;
+  }
 }
 
 .works-slider__thumb-link {
@@ -158,12 +250,8 @@
 
 .works-slider__tags {
   display: flex;
-  margin-bottom: 26px;
-}
-
-.works-slider__tag-item {
-  margin-right: 15px;
-  margin-bottom: 15px;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .works-slider__title {
@@ -187,21 +275,29 @@
   font-weight: bold;
   font-size: 18px;
   line-height: 25px;
-  color: $link;
-  text-decoration: none;
+  color: $text-color;
+  .iconed-link {
+    text-decoration: none;
+  }
   &:before {
     content: "";
     display: block;
-    background: svg-load("icon_link.svg", fill=$link, width=100%, height=100%)
+    background: svg-load(
+        "icon_link.svg",
+        fill=$text-color,
+        width=100%,
+        height=100%
+      )
       center center no-repeat;
     width: 22px;
     height: 22px;
     margin-right: 16px;
   }
   &:hover {
-    color: $text-color-dark;
+    /* color: $text-color-dark; */
     &:before {
-      background: svg-load("icon_link.svg", fill=$text-color-dark, width=100%, height=100%)
+      background: svg-load("icon_link.svg", fill=$link, width=100%, height=100%)
+        center center no-repeat;
     }
   }
 }
@@ -218,6 +314,8 @@
 
 .works-slider__tag-item {
   padding: 13px 21px;
+  margin-bottom: 20px;
+  margin-right: 0.7vw;
   background: $tag-color;
   font-size: 15px;
   font-weight: 600;
