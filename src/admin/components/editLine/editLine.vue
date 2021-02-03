@@ -62,7 +62,7 @@ export default {
     },
     onCancel() {
       this.editmode = false;
-      this.titleError == ""
+      this.titleError = ""
       this.$emit("remove");
     },
   },
