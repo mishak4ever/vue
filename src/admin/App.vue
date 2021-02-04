@@ -28,7 +28,7 @@
 import headline from "./components/headline";
 import user from "./components/user";
 import navigation from "./components/navigation";
-import iconedBtn from "./components/button";
+import iconedBtn from "./components/button/types/iconedBtn";
 import category from "./components/category";
 
 export default {

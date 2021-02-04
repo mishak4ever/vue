@@ -21,7 +21,7 @@
 
 <script>
 import appInput from "../input";
-import roundBtn from "../button";
+import roundBtn from "../button/types/roundBtn";
 export default {
   components: {
     roundBtn,
