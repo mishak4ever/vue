@@ -3,55 +3,28 @@
   headline 
     user
   navigation
-  .admin-content.container
-    .content-container
-      .header
-        .title Блок Обо мне
-        iconed-btn(
-          type="iconed",
-          title="Добавить группу",
-          @click="showEmptyCat = true",
-          v-if="!showEmptyCat"
-        )
-    ul.skills
-      li.item(v-if="showEmptyCat")
-        category(empty, @remove="showEmptyCat = false")
-      li.item(v-for="category in categories", :key="category.id")
-        category(
-          :title="category.category",
-          :skills="category.skills",
-          @catEvent="catHandler($event)"
-        )
+  .container
+    router-view
 </template>
+
+
 
 <script>
 import headline from "./components/headline";
 import user from "./components/user";
 import navigation from "./components/navigation";
+<<<<<<< HEAD
 import iconedBtn from "./components/button/types/iconedBtn";
 import category from "./components/category";
+=======
+import about from "./pages/about.vue";
+>>>>>>> b2a612dacafadcbaac46a86d0afa792d64666149
 
 export default {
   components: {
     headline,
     user,
     navigation,
-    iconedBtn,
-    category,
-  },
-  data() {
-    return {
-      categories: ["Категория1", "Категория2", "Категория3"],
-      showEmptyCat: false,
-    };
-  },
-  created() {
-    this.categories = require("./json/data.json");
-  },
-  methods: {
-    catHandler(event) {
-      console.log(event);
-    },
   },
 };
 </script>
