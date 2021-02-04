@@ -17,7 +17,6 @@ import user from "./components/user";
 import navigation from "./components/navigation";
 
 export default {
-  // mixins: [require('simple-vue-validator').mixin],
   components: {
     headline,
     user,

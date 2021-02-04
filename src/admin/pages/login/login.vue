@@ -6,8 +6,8 @@
       .login
         app-input(
           placeholder="Логин",
-          :errorMessage="validation.firstError('user.login')",
-          v-model="user.login",
+          :errorMessage="validation.firstError('user.name')",
+          v-model="user.name",
           icon="user"
         )
       .pass
@@ -19,22 +19,22 @@
           type="password"
         )
       .button
-        defaultBtn(type="default")
+        button-spinner(:disabled="isLoading" v-bind="{isLoading, status}" ) Войти
 </template>
 
 
 <script>
 import defaultBtn from "../../components/button";
 import appInput from "../../components/input";
+import $axios from "../../axios.js";
+import ButtonSpinner from "vue-button-spinner";
 
-// import { Validator, mixin as validatorMixin } from "simple-vue-validator";
 import SimpleVueValidation from "simple-vue-validator";
 const Validator = SimpleVueValidation.Validator;
 
 export default {
-  // mixins: [validatorMixin],
   validators: {
-    "user.login": (value) => {
+    "user.name": (value) => {
       return Validator.value(value).required("Введите имя пользователя");
     },
     "user.password": (value) => {
@@ -42,15 +42,15 @@ export default {
     },
   },
   components: {
-    defaultBtn,
+    ButtonSpinner,
     appInput,
   },
   data() {
     return {
-      titleError: "",
-      passError: "",
+      isLoading: false,
+      status: "",
       user: {
-        login: "",
+        name: "",
         password: "",
       },
     };
@@ -60,7 +60,20 @@ export default {
     logon() {
       this.$validate().then((isValid) => {
         if (!isValid) return;
-        console.log(this.user);
+        this.isLoading = true;
+        try {
+          console.log(this.user);
+          const response = $axios.post("/login", this.user);
+          const token = response.data.token;
+          console.log(token);
+          // localStorage.setItem("token", token);
+          // $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+          this.$router.replace("/");
+        } catch (error) {
+          //....
+        } finally {
+          this.isLoading = false;
+        }
       });
     },
   },

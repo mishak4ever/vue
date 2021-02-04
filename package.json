@@ -63,6 +63,8 @@
     "last 2 versions"
   ],
   "dependencies": {
+    "await": "^0.2.6",
+    "axios": "^0.21.1",
     "bash": "^0.0.1",
     "normalize.css": "^8.0.1",
     "promptly": "^3.0.3",
@@ -74,6 +76,7 @@
     "swiper": "^6.4.8",
     "vue": "^2.6.12",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-button-spinner": "^2.2.1",
     "vue-match-media": "^1.0.3",
     "vue-router": "^3.5.1",
     "vuejs": "^3.0.1"

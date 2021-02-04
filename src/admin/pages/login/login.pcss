@@ -43,6 +43,25 @@
   justify-content: center;
 }
 
+.login-btn {
+  padding: 19px 40px;
+  font-size: 14px;
+  font-weight: bold;
+
+  &.disabled {
+    opacity: .5;
+    filter: grayscale(100%);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &.plain {
+    text-transform: initial;
+    color: $links-color;
+    background: transparent;
+  }
+}
+
 .login-form {
   width: 563px;
   padding: 50px 77px 60px;
