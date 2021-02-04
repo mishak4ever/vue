@@ -1,9 +1,11 @@
 <template lang="pug">
 .root-continer
-  headline 
-    user
-  navigation
+  .header(v-if="!login")
+    headline 
+      user
+    navigation
   .container
+    .route
     router-view
 </template>
 
@@ -13,13 +15,21 @@
 import headline from "./components/headline";
 import user from "./components/user";
 import navigation from "./components/navigation";
-import about from "./pages/about.vue";
 
 export default {
+  // mixins: [require('simple-vue-validator').mixin],
   components: {
     headline,
     user,
     navigation,
+  },
+  computed: {
+    login() {
+      return this.$route.path == "/login" ? true : false;
+    },
+  },
+  mounted() {
+    // console.log(this.$route);
   },
 };
 </script>

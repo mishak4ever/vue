@@ -22,8 +22,8 @@
 
 
 <script>
-import iconedBtn from "../components/button";
-import category from "../components/category";
+import iconedBtn from "../../components/button";
+import category from "../../components/category";
 
 export default {
   components: {
@@ -37,7 +37,7 @@ export default {
     };
   },
   created() {
-    this.categories = require("../json/data.json");
+    this.categories = require("../../json/data.json");
   },
   methods: {
     catHandler(event) {
