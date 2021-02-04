@@ -19,7 +19,7 @@
           type="password"
         )
       .button
-        button-spinner(:disabled="isLoading" v-bind="{isLoading, status}" ) Войти
+        button-spinner(:disabled="isLoading", v-bind="{isLoading, status}") Войти
 </template>
 
 
@@ -63,13 +63,15 @@ export default {
         this.isLoading = true;
         try {
           console.log(this.user);
-          const response = $axios.post("/login", this.user);
-          const token = response.data.token;
-          console.log(token);
-          // localStorage.setItem("token", token);
-          // $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-          this.$router.replace("/");
+          $axios.post("/login", this.user).then((response) => {
+            const token = response.data.token;
+            console.log(response);
+            localStorage.setItem("token", token);
+            $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+            this.$router.replace("/");
+          });
         } catch (error) {
+          console.log(error);
           //....
         } finally {
           this.isLoading = false;
