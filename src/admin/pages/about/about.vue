@@ -1,5 +1,5 @@
 <template lang="pug">
-.admin-content
+.admin-content(v-if="categories.length")
   .content-container
     .header
       .title Блок Обо мне {{ $route.params }}
@@ -22,13 +22,14 @@
         :skills="category.skills",
         @catEvent="catHandler($event)"
       )
+.loading-content(v-else) Загрузка...
 </template>
 
 
 <script>
 import iconedBtn from "../../components/button";
 import category from "../../components/category";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
@@ -37,22 +38,32 @@ export default {
   },
   data() {
     return {
-      categories: ["Категория1", "Категория2", "Категория3"],
+      // categories: ["Категория1", "Категория2", "Категория3"],
       showEmptyCat: false,
     };
   },
   created() {
+    // this.$store.dispatch('categories/fetch');
     this.fetchCategoriesAction();
     this.categories = require("../../json/data.json");
   },
+  computed: {
+    ...mapState("categories", {
+      categories: (state) => state.data,
+    }),
+  },
   methods: {
     ...mapActions({
-      createCategoryAction: "categories/create",
-      fetchCategoriesAction: "categories/fetch"
+      createCategoryAction: "categories/create_category",
+      fetchCategoriesAction: "categories/fetch_categories",
     }),
-    createCategory(catTitle) {
-      this.createCategoryAction(catTitle)
-      // console.log(catTitle);
+    async createCategory(catTitle) {
+      try {
+        await this.createCategoryAction(catTitle);
+        this.showEmptyCat=false;
+      } catch (error) {
+        console.log(error.message);
+      }
     },
     catHandler(event) {
       console.log(event.type);

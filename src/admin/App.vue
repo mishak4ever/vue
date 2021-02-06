@@ -1,7 +1,7 @@
 <template lang="pug">
 .root-continer
   .header(v-if="!login")
-    headline 
+    headline(@action="logout")
       user
     navigation
   .container
@@ -22,13 +22,28 @@ export default {
     user,
     navigation,
   },
+  data() {
+    return {
+      loggedIn: false,
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.setItem("token", "");
+      this.$router.replace("/login");
+    },
+  },
+  mounted() {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    this.loggedIn = token ? true : false;
+    console.log(this.loggedIn);
+    if (!this.loggedIn && !this.login) this.$router.replace("/login");
+  },
   computed: {
     login() {
       return this.$route.path == "/login" ? true : false;
     },
-  },
-  mounted() {
-    // console.log(this.$route);
   },
 };
 </script>
