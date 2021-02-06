@@ -1,5 +1,5 @@
 <template lang="pug">
-.root-continer
+.root-container
   .header(v-if="!login")
     headline(@action="logout")
       user
@@ -7,6 +7,13 @@
   .container
     .route
     router-view
+    .tooltip-container(:class="{ active: tooltipIsShown }")
+      .notification
+        notification(
+          :text="tooltipText",
+          :type="tooltipType",
+          @click="hideTooltip"
+        )
 </template>
 
 
@@ -15,12 +22,15 @@
 import headline from "./components/headline";
 import user from "./components/user";
 import navigation from "./components/navigation";
+import notification from "./components/notification";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
     headline,
     user,
     navigation,
+    notification,
   },
   data() {
     return {
@@ -28,6 +38,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      hideTooltip: "tooltips/hide_tooltip",
+    }),
     logout() {
       localStorage.setItem("token", "");
       this.$router.replace("/login");
@@ -35,12 +48,15 @@ export default {
   },
   mounted() {
     const token = localStorage.getItem("token");
-    console.log(token);
     this.loggedIn = token ? true : false;
-    console.log(this.loggedIn);
     if (!this.loggedIn && !this.login) this.$router.replace("/login");
   },
   computed: {
+    ...mapState("tooltips", {
+      tooltipIsShown: (state) => state.isShown,
+      tooltipText: (state) => state.text,
+      tooltipType: (state) => state.type,
+    }),
     login() {
       return this.$route.path == "/login" ? true : false;
     },

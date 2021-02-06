@@ -6,6 +6,41 @@ export default {
   mutations: {
     SET_CATEGORIES: (state, categories) => (state.data = categories),
     ADD_CATEGORY: (state, category) => state.data.unshift(category),
+
+    ADD_SKILL: (state, newSkill) => {
+      state.data = state.data.map((category) => {
+        if (category.id === newSkill.category) {
+          category.skills.push(newSkill);
+        }
+        return category;
+      });
+    },
+    REMOVE_SKILL: (state, skillToRemove) => {
+      state.data = state.data.map((category) => {
+        if (category.id === skillToRemove.category) {
+          category.skills = category.skills.filter(
+            (skill) => skill.id !== skillToRemove.id
+          );
+        }
+        return category;
+      });
+    },
+    EDIT_SKILL: (state, skillToEdit) => {
+      const editSkillInCategory = (category) => {
+        category.skills = category.skills.map((skill) => {
+          return skill.id === skillToEdit.id ? skillToEdit : skill;
+        });
+      };
+
+      const findCategory = (category) => {
+        if (category.id === skillToEdit.category) {
+          editSkillInCategory(category);
+        }
+
+        return category;
+      };
+      state.data = state.data.map(findCategory);
+    },
   },
   actions: {
     async create_category(store, title) {
@@ -17,11 +52,13 @@ export default {
         throw new Error("произошла ошибка");
       }
     },
-    async fetch_categories(store) {
+    async fetch_categories(store, userId) {
       try {
-        const response = await this.$axios.get("/categories/");
-        console.log(response.data);
-        store.commit("categories/SET_CATEGORIES", response.data, { root: true });
+        console.log(userId);
+        const response = await this.$axios.get("/categories/" + userId);
+        store.commit("categories/SET_CATEGORIES", response.data, {
+          root: true,
+        });
       } catch (error) {
         console.log(error);
       }

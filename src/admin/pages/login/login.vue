@@ -28,6 +28,7 @@ import defaultBtn from "../../components/button";
 import appInput from "../../components/input";
 import $axios from "../../axios.js";
 import ButtonSpinner from "vue-button-spinner";
+import { mapActions, mapState } from "vuex";
 
 import SimpleVueValidation from "simple-vue-validator";
 const Validator = SimpleVueValidation.Validator;
@@ -57,18 +58,23 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      showTooltip: "tooltips/show_tooltip",
+    }),
     async logon() {
       if ((await this.$validate()) === false) return;
       this.isLoading = true;
       try {
         const response = await $axios.post("/login", this.user);
         const token = response.data.token;
-        console.log(response);
         localStorage.setItem("token", token);
         $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
         this.$router.replace("/");
       } catch (error) {
-        console.log("error");
+        this.showTooltip({
+          text: error.response.data.error,
+          type: "error",
+        });
         console.log(error.response.data.error);
         //....
       } finally {

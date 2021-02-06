@@ -1,7 +1,24 @@
-.root-continer {
+.root-container {
   min-height: 100%;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+}
+
+.notification {
+  transition: transform 0.3s;
+}
+
+.tooltip-container {
+  position: fixed;
+  top: 0%;
+  left: 50%;
+  transform: translateY(-100%);
+
+  &.active {
+    .notification {
+      transform: translateY(+100%);
+    }
+  }
 }
