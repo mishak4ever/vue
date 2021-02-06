@@ -57,26 +57,23 @@ export default {
   },
 
   methods: {
-    logon() {
-      this.$validate().then((isValid) => {
-        if (!isValid) return;
-        this.isLoading = true;
-        try {
-          console.log(this.user);
-          $axios.post("/login", this.user).then((response) => {
-            const token = response.data.token;
-            console.log(response);
-            localStorage.setItem("token", token);
-            $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-            this.$router.replace("/");
-          });
-        } catch (error) {
-          console.log(error);
-          //....
-        } finally {
-          this.isLoading = false;
-        }
-      });
+    async logon() {
+      if ((await this.$validate()) === false) return;
+      this.isLoading = true;
+      try {
+        const response = await $axios.post("/login", this.user);
+        const token = response.data.token;
+        console.log(response);
+        localStorage.setItem("token", token);
+        $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+        this.$router.replace("/");
+      } catch (error) {
+        console.log("error");
+        console.log(error.response.data.error);
+        //....
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 };
