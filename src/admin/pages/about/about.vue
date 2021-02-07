@@ -2,7 +2,7 @@
 .admin-content(v-if="categories.length")
   .content-container
     .header
-      .title Блок Обо мне {{ $route.params }}
+      .title Блок Обо мне
       iconed-btn(
         type="iconed",
         title="Добавить группу",
@@ -47,11 +47,10 @@ export default {
   created() {
     this.getUserAction()
       .then((user) => {
-        console.log("user", user);
         this.fetchCategoriesAction(user.id);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   },
   computed: {
@@ -91,7 +90,6 @@ export default {
       }
     },
     async editCategory(categoryId, category) {
-      console.log(categoryId, category);
       try {
         await this.editCategoryAction({ id: categoryId, title: category.title });
         category.editmode=false;
@@ -107,7 +105,6 @@ export default {
       }
     },
     async deleteCategory(categoryId, category) {
-      console.log(categoryId);
       try {
         await this.deleteCategoryAction({ id: categoryId});
         // category.editmode=false;
@@ -123,7 +120,6 @@ export default {
       }
     },
     async catHandler(categoryId, event) {
-      console.log(event.type);
       let tooltipText = "";
       try {
         switch (event.type) {
@@ -135,7 +131,6 @@ export default {
             tooltipText = `Удален скилл`;
             break;
           case "editSkill":
-            console.log(event.data);
             await this.editSkillAction({ ...event.data, category: categoryId });
             event.data.editMode = false;
             tooltipText = `Отредактирован скилл`;

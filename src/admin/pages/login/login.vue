@@ -19,7 +19,7 @@
           type="password"
         )
       .button
-        button-spinner(:disabled="isLoading", v-bind="{isLoading, status}") Войти
+        defaultBtn(type="spin" title="Отправить" :disabled="isLoading")
 </template>
 
 
@@ -45,10 +45,12 @@ export default {
   components: {
     ButtonSpinner,
     appInput,
+    defaultBtn,
   },
   data() {
     return {
       isLoading: false,
+      spinned: true,
       status: "",
       user: {
         name: "",
@@ -75,8 +77,6 @@ export default {
           text: error.response.data.error,
           type: "error",
         });
-        console.log(error.response.data.error);
-        //....
       } finally {
         this.isLoading = false;
       }

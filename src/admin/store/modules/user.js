@@ -13,7 +13,6 @@ export default {
         store.commit("user/SET_USER", response.data, { root: true });
         return response.data.user;
       } catch (error) {
-        console.log(error);
         throw new Error("ошибка чтения юзера");
       }
     },

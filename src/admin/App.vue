@@ -1,12 +1,14 @@
 <template lang="pug">
 .root-container
+  .container
   .header(v-if="!login")
     headline(@action="logout")
       user
-    navigation
+    .nav
+      navigation
   .container
     .route
-    router-view
+      router-view
     .tooltip-container(:class="{ active: tooltipIsShown }")
       .notification
         notification(
@@ -24,7 +26,6 @@ import user from "./components/user";
 import navigation from "./components/navigation";
 import notification from "./components/notification";
 import { mapState, mapActions } from "vuex";
-
 
 export default {
   components: {
@@ -67,6 +68,7 @@ export default {
 
 <style lang="postcss">
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 @import "../styles/mixins.pcss";
 @import "../styles/layout/base.pcss";
 </style>

@@ -1,0 +1,41 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
+.btn-file-container {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.btn-file-input {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+}
+
+.btn-decorator {
+  padding: 19px 65px;
+  color: #fff;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #006aed, #3f35cb) center center;
+  display: inline-block;
+  border-radius: 100px;
+  font-weight: bold;
+
+  &.disabled {
+    opacity: .5;
+    filter: grayscale(100%);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &.plain {
+    text-transform: initial;
+    color: $links-color;
+    background: transparent;
+  }
+}
+
+.fa {
+  margin-left: -25px;
+  margin-right: 12px;
+  font-size: 18px;
+}
