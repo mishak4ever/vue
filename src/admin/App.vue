@@ -25,6 +25,7 @@ import navigation from "./components/navigation";
 import notification from "./components/notification";
 import { mapState, mapActions } from "vuex";
 
+
 export default {
   components: {
     headline,

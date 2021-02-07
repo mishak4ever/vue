@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import card from "../card";
+import card from "../Card";
 import editLine from "../editLine";
 import skill from "../skill";
 import skillAdd from "../skillAdd";
