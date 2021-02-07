@@ -20,7 +20,9 @@
       category(
         :title="category.category",
         :skills="category.skills",
-        @catEvent="catHandler(category.id, $event)"
+        @catEvent="catHandler(category.id, $event)",
+        @remove="deleteCategory(category.id)",
+        @approve="editCategory(category.id, $event)"
       )
 .loading-content(v-else) Загрузка...
 </template>
@@ -60,42 +62,99 @@ export default {
   },
   methods: {
     ...mapActions({
+      showTooltip: "tooltips/show_tooltip",
+      hideTooltip: "tooltips/hide_tooltip",
       getUserAction: "user/get_user",
       createCategoryAction: "categories/create_category",
       fetchCategoriesAction: "categories/fetch_categories",
+      deleteCategoryAction: "categories/delete_category",
+      editCategoryAction: "categories/edit_category",
       fetchSkillsAction: "skills/fetch_skills",
       addSkillAction: "skills/add_skill",
       editSkillAction: "skills/edit_skill",
       removeSkillAction: "skills/remove_skill",
     }),
-    async createCategory(catTitle) {
+    async createCategory(category) {
       try {
-        await this.createCategoryAction(catTitle);
+        await this.createCategoryAction(category.title);
         this.showEmptyCat = false;
+        this.showTooltip({
+          text: `Добавлена категория ${category.title}`,
+          type: "success",
+        });
       } catch (error) {
-        console.log(error.message);
+        this.showTooltip({
+          text: error.message,
+          type: "error",
+        });
+      }
+    },
+    async editCategory(categoryId, category) {
+      console.log(categoryId, category);
+      try {
+        await this.editCategoryAction({ id: categoryId, title: category.title });
+        category.editmode=false;
+        this.showTooltip({
+          text: `Изменена категория ${category.title}`,
+          type: "success",
+        });
+      } catch (error) {
+        this.showTooltip({
+          text: error.message,
+          type: "error",
+        });
+      }
+    },
+    async deleteCategory(categoryId, category) {
+      console.log(categoryId);
+      try {
+        await this.deleteCategoryAction({ id: categoryId});
+        // category.editmode=false;
+        this.showTooltip({
+          text: `Удалена категория`,
+          type: "success",
+        });
+      } catch (error) {
+        this.showTooltip({
+          text: error.message,
+          type: "error",
+        });
       }
     },
     async catHandler(categoryId, event) {
       console.log(event.type);
-      switch (event.type) {
-        case "removeSkill":
-          await this.removeSkillAction({ id: event.data, category: categoryId });
-          //
-          break;
-        case "editSkill":
-          console.log(event.data);
-          await this.editSkillAction({ ...event.data, category: categoryId });
-          event.data.editMode=false;
-          //
-          break;
-        case "addSkill":
-          await this.addSkillAction({ ...event.data, category: categoryId });
-          //
-          break;
-
-        default:
-          break;
+      let tooltipText = "";
+      try {
+        switch (event.type) {
+          case "removeSkill":
+            await this.removeSkillAction({
+              id: event.data,
+              category: categoryId,
+            });
+            tooltipText = `Удален скилл`;
+            break;
+          case "editSkill":
+            console.log(event.data);
+            await this.editSkillAction({ ...event.data, category: categoryId });
+            event.data.editMode = false;
+            tooltipText = `Отредактирован скилл`;
+            break;
+          case "addSkill":
+            await this.addSkillAction({ ...event.data, category: categoryId });
+            tooltipText = `Добавлен скилл`;
+            break;
+          default:
+            break;
+        }
+        this.showTooltip({
+          text: tooltipText,
+          type: "success",
+        });
+      } catch (error) {
+        this.showTooltip({
+          text: error.message,
+          type: "error",
+        });
       }
     },
   },

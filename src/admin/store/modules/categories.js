@@ -41,12 +41,45 @@ export default {
       };
       state.data = state.data.map(findCategory);
     },
+    EDIT_CATEGORY: (state, catToEdit) => {
+      state.data = state.data.map((category) => {
+        if (category.id === catToEdit.id) {
+          category.title = catToEdit.title;
+        }
+        return category;
+      });
+    },
+    DELETE_CATEGORY: (state, catToDelete) => {
+      state.data = state.data.filter(
+        (category) => category.id !== catToDelete.id
+      );
+    },
   },
   actions: {
     async create_category(store, title) {
       try {
         const response = await this.$axios.post("/categories", { title });
         store.commit("categories/ADD_CATEGORY", response.data, { root: true });
+      } catch (error) {
+        console.log(error);
+        throw new Error("произошла ошибка");
+      }
+    },
+    async edit_category(store, category) {
+      try {
+        const response = await this.$axios.post("/categories/" + category.id, {
+          title: category.title,
+        });
+        store.commit("categories/EDIT_CATEGORY", category, { root: true });
+      } catch (error) {
+        console.log(error);
+        throw new Error("произошла ошибка");
+      }
+    },
+    async delete_category(store, category) {
+      try {
+        const response = await this.$axios.delete("/categories/" + category.id);
+        store.commit("categories/DELETE_CATEGORY", category, { root: true });
       } catch (error) {
         console.log(error);
         throw new Error("произошла ошибка");

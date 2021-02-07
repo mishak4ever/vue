@@ -32,7 +32,7 @@ export default {
     },
     "skill.percent": (value) => {
       return Validator.value(value)
-      .required("Пароль не может быть пустым")
+      .required("Введите число")
       .integer("Введите число")
       .between(0,100,"Некорректное значение");
     },
@@ -56,10 +56,7 @@ export default {
   },
   methods: {
     async addskill() {
-       if ((await this.$validate()) === false) return;
-      // this.titleError = this.skill.title == "" ? "Поле пустое" : "";
-      // this.valError = this.skill.percent == "" ? "Поле пустое" : "";
-      // if (this.titleError != "" || this.valError != "") return;
+      if ((await this.$validate()) === false) return;
       this.$emit("addskill", {
         title: this.skill.title,
         percent: this.skill.percent,
