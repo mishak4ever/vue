@@ -1,10 +1,10 @@
 export default {
   namespaced: true,
   state: {
-    user: { id: 1, name: "" },
+    user: {},
   },
   mutations: {
-    SET_USER: (state, user) => (state.user = user),
+    SET_USER: (state, userId) => (state.user = userId),
   },
   actions: {
     async get_user(store) {
