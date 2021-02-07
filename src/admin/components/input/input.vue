@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import tooltip from "../tooltip";
+
 export default {
   inheritAttrs: false,
   props: {
@@ -65,7 +67,8 @@ export default {
     }
   },
   components: {
-    tooltip: () => import("components/tooltip")
+    tooltip
+        // tooltip: () => import("components/tooltip")
   }
 };
 </script>
