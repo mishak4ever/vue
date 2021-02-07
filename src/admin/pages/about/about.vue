@@ -79,7 +79,6 @@ export default {
         await this.createCategoryAction(category.title);
         this.showEmptyCat = false;
         this.fetchCategoriesAction(this.user.user.id);
-        console.log("user",this.user.user.id);
         this.showTooltip({
           text: `Добавлена категория ${category.title}`,
           type: "success",

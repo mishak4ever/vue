@@ -11,7 +11,6 @@ export default {
       try {
         const response = await this.$axios.get("/user");
         store.commit("user/SET_USER", response.data, { root: true });
-        console.log(response.data.user);
         return response.data.user;
       } catch (error) {
         console.log(error);
