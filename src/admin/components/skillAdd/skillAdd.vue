@@ -3,8 +3,8 @@
   .title
     app-input(
       placeholder="Новый навык",
-      :errorMessage="titleError",
-      v-model="skillTitle"
+      :errorMessage="validation.firstError('skill.title')",
+      v-model="skill.title"
     )
   .percent
     app-input(
@@ -12,8 +12,8 @@
       min="0",
       max="100",
       maxlength="3",
-      :errorMessage="valError",
-      v-model="skillValue"
+      :errorMessage="validation.firstError('skill.percent')",
+      v-model="skill.percent"
     )
   .button
     roundBtn(type="round", @click="addskill")
@@ -21,8 +21,22 @@
 
 <script>
 import appInput from "../input";
-import roundBtn from "../button/types/roundBtn";
+import roundBtn from "../button";
+import SimpleVueValidation from "simple-vue-validator";
+const Validator = SimpleVueValidation.Validator;
+
 export default {
+  validators: {
+    "skill.title": (value) => {
+      return Validator.value(value).required("Введите название скила");
+    },
+    "skill.percent": (value) => {
+      return Validator.value(value)
+      .required("Введите число")
+      .integer("Введите число")
+      .between(0,100,"Некорректное значение");
+    },
+  },
   components: {
     roundBtn,
     appInput,
@@ -32,24 +46,23 @@ export default {
   },
   data() {
     return {
-      skillTitle: "",
-      skillValue: "",
+      skill: {
+        title: "",
+        percent: "",
+      },
       titleError: "",
       valError: "",
     };
   },
   methods: {
-    addskill() {
-      this.titleError =
-        this.skillTitle == "" ? "Поле пустое" : "";
-      this.valError = this.skillValue == "" ? "Поле пустое" : "";
-      if (this.titleError != "" || this.valError != "") return;
+    async addskill() {
+      if ((await this.$validate()) === false) return;
       this.$emit("addskill", {
-        title: this.skillTitle,
-        percent: this.skillValue,
+        title: this.skill.title,
+        percent: this.skill.percent,
       });
-      this.skillTitle = "";
-      this.skillValue = "";
+      this.skill.title = "";
+      this.skill.percent = "";
     },
   },
 };

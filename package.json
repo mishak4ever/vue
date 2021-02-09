@@ -70,12 +70,8 @@
     "swiper": "^6.4.10",
     "vue": "^2.6.7",
     "vue-awesome-swiper": "^4.1.1",
-<<<<<<< HEAD
-    "vue-router": "^3.0.2"
-=======
     "vue-match-media": "^1.0.3",
     "vue-router": "^3.5.1",
     "vuejs": "^3.0.1"
->>>>>>> b2a612dacafadcbaac46a86d0afa792d64666149
   }
 }

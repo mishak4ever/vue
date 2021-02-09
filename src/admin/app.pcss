@@ -1,7 +1,40 @@
-.root-continer {
-  min-height: 100%;
-  max-width: 1200px;
+.root-container {
+  min-height: 100vh;
+  /* max-width: 1200px; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.3;
+    z-index: -1;
+    background: url("~images/content/mountain_baloon.jpg") center center / cover
+      no-repeat;
+  }
+}
+
+.notification {
+  transition: transform 0.3s;
+}
+
+.nav {
+  background-color: #ffffff;
+}
+
+.tooltip-container {
+  position: fixed;
+  top: 0%;
+  left: 50%;
+  transform: translateY(-100%);
+
+  &.active {
+    .notification {
+      transform: translateY(+100%);
+    }
+  }
 }

@@ -19,6 +19,7 @@ export default {
     square: () => import("./types/squareBtn"),
     iconed: () => import("./types/iconedBtn"),
     round: () => import("./types/roundBtn"),
+    spin: () => import("./types/spinBtn"),
   }
 }
 </script>

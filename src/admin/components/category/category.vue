@@ -6,6 +6,7 @@
       v-model="catTitle",
       :editModeByDefault="empty",
       @remove="$emit('remove', $event)"
+      @approve="$emit('approve', $event)"
     )
     .category-content(slot="content")
       ul.skills(v-if="empty == false")

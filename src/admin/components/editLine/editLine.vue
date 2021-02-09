@@ -1,17 +1,17 @@
 <template>
   <div class="edit-line-component" :class="{ blocked: blocked }">
-    <div class="title" v-if="editmode === false">
-      <div class="text">{{ title }}</div>
+    <div class="title" v-if="category.editmode === false">
+      <div class="text">{{ value }}</div>
       <div class="icon">
-        <icon symbol="pencil" grayscale @click="editmode = true"></icon>
+        <icon symbol="pencil" grayscale @click="category.editmode = true"></icon>
       </div>
     </div>
     <div v-else class="title">
       <div class="input">
         <app-input
           placeholder="Название новой группы"
-          :value="title"
-          :errorMessage="titleError"
+          :value="value"
+          :errorMessage="validation.firstError('value')"
           @input="$emit('input', $event)"
           @keydown.native.enter="onApprove"
           autofocus="autofocus"
@@ -23,7 +23,7 @@
           <icon symbol="tick" @click="onApprove"></icon>
         </div>
         <div class="button-icon">
-          <icon symbol="cross" @click="onCancel()"></icon>
+          <icon symbol="cross" @click="onCancel"></icon>
         </div>
       </div>
     </div>
@@ -31,13 +31,17 @@
 </template>
 
 <script>
+import SimpleVueValidation from "simple-vue-validator";
+const Validator = SimpleVueValidation.Validator;
+
 export default {
+  validators: {
+    value: (value) => {
+      return Validator.value(value).required("Введите название категории");
+    },
+  },
   props: {
     value: {
-      type: String,
-      default: "",
-    },
-    errorText: {
       type: String,
       default: "",
     },
@@ -46,24 +50,21 @@ export default {
   },
   data() {
     return {
-      editmode: this.editModeByDefault,
-      title: this.value,
-      titleError: this.errorText,
+      category: {
+        editmode: this.editModeByDefault,
+        title: this.value,
+      }
     };
   },
   methods: {
-    onApprove() {
-      this.titleError = this.value.trim() == "" ? "Пустое поле" : "";
-      if (this.titleError == "") {
-        this.title = this.value;
-        this.$emit("approve", this.value);
-        this.editmode = false;
-      }
+    async onApprove() {
+      if ((await this.$validate()) === false) return;
+      this.category.title = this.value;
+      this.$emit("approve", this.category);
     },
     onCancel() {
-      this.editmode = false;
-      this.titleError = ""
-      this.$emit("remove");
+      // this.category.editmode = false;
+      this.$emit("remove",this.category);
     },
   },
   components: {

@@ -3,18 +3,19 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-import about from "./pages/about.vue";
+import about from "./pages/about/about.vue";
+import login from "./pages/login/login.vue";
 
 const routes = [
   {
-    path: '/admin',
+    path: '/',
     component: about
   },
   {
-    path: '/admin/:tab',
-    component: about
+    path: '/login',
+    component: login
   },
 
 ];
 
-export default new VueRouter({routes, mode: 'history'});
+export default new VueRouter({routes});
