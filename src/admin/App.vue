@@ -1,12 +1,11 @@
 <template lang="pug">
-.root-container
-  .container
+div(:class="[{ 'login-container': login }, { 'root-container': !login }]")
   .header(v-if="!login")
     headline(@action="logout")
       user
     .nav
       navigation
-  .container
+  .page-container
     .route
       router-view
     .tooltip-container(:class="{ active: tooltipIsShown }")
@@ -25,6 +24,7 @@ import headline from "./components/headline";
 import user from "./components/user";
 import navigation from "./components/navigation";
 import notification from "./components/notification";
+import $axios from "./axios.js";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -42,8 +42,12 @@ export default {
   methods: {
     ...mapActions({
       hideTooltip: "tooltips/hide_tooltip",
+      refreshToken: "user/refresh_token",
+      dumm: "user/dumm",
     }),
-    logout() {
+    async logout() {
+      // await this.refreshToken();
+      // console.log(this.userToken);
       localStorage.setItem("token", "");
       this.$router.replace("/login");
     },
@@ -52,12 +56,31 @@ export default {
     const token = localStorage.getItem("token");
     this.loggedIn = token ? true : false;
     if (!this.loggedIn && !this.login) this.$router.replace("/login");
+
+    $axios.interceptors.request.use(
+      (response) => {
+        console.log("response", response);
+        return response;
+      },
+      (error) => {
+        if (error.response.status == 401) {
+          this.refreshToken();
+          console.log("Refresh user token");
+          // console.log("Refresh user token", error.response.status);
+        }
+        return Promise.reject(error);
+      }
+    );
+  },
+  created() {
+    // axios.interceptors.request.eject(myInterceptor);
   },
   computed: {
-    ...mapState("tooltips", {
-      tooltipIsShown: (state) => state.isShown,
-      tooltipText: (state) => state.text,
-      tooltipType: (state) => state.type,
+    ...mapState({
+      userToken: (state) => state.user.token,
+      tooltipIsShown: (state) => state.tooltips.isShown,
+      tooltipText: (state) => state.tooltips.text,
+      tooltipType: (state) => state.tooltips.type,
     }),
     login() {
       return this.$route.path == "/login" ? true : false;
