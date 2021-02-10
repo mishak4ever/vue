@@ -5,6 +5,8 @@ Vue.use(VueRouter);
 
 import about from "./pages/about/about.vue";
 import login from "./pages/login/login.vue";
+import works from "./pages/works/works.vue";
+import reviews from "./pages/reviews/reviews.vue";
 
 const routes = [
   {
@@ -14,6 +16,18 @@ const routes = [
   {
     path: '/login',
     component: login
+  },
+  {
+    path: '/about',
+    component: about
+  },
+  {
+    path: '/works',
+    component: works
+  },
+  {
+    path: '/reviews',
+    component: reviews
   },
 
 ];

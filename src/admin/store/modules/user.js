@@ -43,6 +43,7 @@ export default {
     },
     async refresh_token(store) {
       try {
+        console.log("refresh token");
         const response = await this.$axios.post("/refreshToken");
         this.$axios.defaults.headers[
           "Authorization"

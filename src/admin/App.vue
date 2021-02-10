@@ -43,6 +43,7 @@ export default {
     ...mapActions({
       hideTooltip: "tooltips/hide_tooltip",
       refreshToken: "user/refresh_token",
+      getUser: "user/get_user",
       dumm: "user/dumm",
     }),
     async logout() {
@@ -56,23 +57,47 @@ export default {
     const token = localStorage.getItem("token");
     this.loggedIn = token ? true : false;
     if (!this.loggedIn && !this.login) this.$router.replace("/login");
-
+  },
+  created() {
+    this.$router.beforeEach((to, from, next) => {
+      try {
+        console.log(to.path);
+        // getUser();
+      } catch (error) {
+        console.log(error.message);
+      }
+      // if (to.name !== "Login" && !isAuthenticated) next({ name: "Login" });
+      // else next();
+       next();
+    });
     $axios.interceptors.request.use(
+      function (config) {
+        // console.log("request", config);
+        return config;
+      },
+      function (error) {
+        return Promise.reject(error);
+      }
+    );
+    $axios.interceptors.response.use(
       (response) => {
-        console.log("response", response);
+        // console.log("response", response);
         return response;
       },
       (error) => {
+        // console.log("error", error.response);
         if (error.response.status == 401) {
           this.refreshToken();
           console.log("Refresh user token");
-          // console.log("Refresh user token", error.response.status);
+        }
+        if (error.response.status == 400) {
+          localStorage.setItem("token", "");
+          this.$router.replace("/login");
+          console.log("Wrong token");
         }
         return Promise.reject(error);
       }
     );
-  },
-  created() {
     // axios.interceptors.request.eject(myInterceptor);
   },
   computed: {
