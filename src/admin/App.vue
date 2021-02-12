@@ -62,13 +62,10 @@ export default {
     this.$router.beforeEach((to, from, next) => {
       try {
         console.log(to.path);
-        // getUser();
       } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
       }
-      // if (to.name !== "Login" && !isAuthenticated) next({ name: "Login" });
-      // else next();
-       next();
+      next();
     });
     $axios.interceptors.request.use(
       function (config) {
@@ -85,15 +82,26 @@ export default {
         return response;
       },
       (error) => {
-        // console.log("error", error.response);
-        if (error.response.status == 401) {
-          this.refreshToken();
-          console.log("Refresh user token");
-        }
-        if (error.response.status == 400) {
-          localStorage.setItem("token", "");
-          this.$router.replace("/login");
-          console.log("Wrong token");
+        if (error.response) {
+          if (error.response.status == 401) {
+            const token=this.refreshToken();
+            config.headers['Authorization'] = `Bearer ${token}`;
+            console.log("Refresh user token");
+            const config = error.config;
+            $axios
+              .request(config)
+              .then((response) => {
+                resolve(response);
+              })
+              .catch((error) => {
+                reject(error);
+              });
+          }
+          if (error.response.status == 400) {
+            localStorage.setItem("token", "");
+            this.$router.replace("/login");
+            console.log("Wrong token");
+          }
         }
         return Promise.reject(error);
       }

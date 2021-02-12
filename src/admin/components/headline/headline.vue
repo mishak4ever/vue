@@ -1,14 +1,14 @@
 <template lang="pug">
 .headline-component
-  .container.headline-container
-    slot
-    .title {{ title }}
-    .btns
-      button.btn(type="button", @click="$emit('action', 'logout')") Выйти
+  .headline-content
+    .headline-container.content-container
+      slot
+      .title {{ title }}
+      .btns
+        button.btn(type="button", @click="$emit('action', 'logout')") Выйти
 </template>
 
 <script>
-
 export default {
   props: {
     title: {

@@ -43,7 +43,7 @@ export default {
     },
     async refresh_token(store) {
       try {
-        console.log("refresh token");
+        // console.log("refresh token");
         const response = await this.$axios.post("/refreshToken");
         this.$axios.defaults.headers[
           "Authorization"
@@ -52,7 +52,7 @@ export default {
         localStorage.setItem("token", response.data.token);
         return response.data.token;
       } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
         throw new Error("ошибка обновления токена");
       }
     },

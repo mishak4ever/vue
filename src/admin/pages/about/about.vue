@@ -9,21 +9,21 @@
         @click="showEmptyCat = true",
         v-if="!showEmptyCat"
       )
-  ul.skills
-    li.item(v-if="showEmptyCat")
-      category(
-        empty,
-        @remove="showEmptyCat = false",
-        @approve="createCategory($event)"
-      )
-    li.item(v-for="category in categories", :key="category.id")
-      category(
-        :title="category.category",
-        :skills="category.skills",
-        @catEvent="catHandler(category.id, $event)",
-        @remove="deleteCategory(category.id)",
-        @approve="editCategory(category.id, $event)"
-      )
+    ul.skills
+      li.item(v-if="showEmptyCat")
+        category(
+          empty,
+          @remove="showEmptyCat = false",
+          @approve="createCategory($event)"
+        )
+      li.item(v-for="category in categories", :key="category.id")
+        category(
+          :title="category.category",
+          :skills="category.skills",
+          @catEvent="catHandler(category.id, $event)",
+          @remove="deleteCategory(category.id)",
+          @approve="editCategory(category.id, $event)"
+        )
 .loading-content(v-else) Загрузка...
 </template>
 
