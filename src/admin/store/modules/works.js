@@ -28,36 +28,38 @@ export default {
       try {
         const response = await this.$axios.post("/works", formData);
         store.commit("works/ADD_WORK", response.data, { root: true });
+        return response.data;
       } catch (error) {
         const text = error.response.data.errors
-          ? JSON.stringify(error.response.data.errors)
-          : error.message;
+        ? JSON.stringify(error.response.data.errors)
+        : error.message;
         console.log("error", text);
         throw new Error("Ошибка добавления работы: " + text);
       }
     },
     async edit(store, newWork) {
       const formData = new FormData();
-
+      
       for (let prop in newWork) {
         if (prop == "preview") continue;
         formData.append(prop, newWork[prop]);
       }
-
+      
       try {
         const response = await this.$axios.post(
           `/works/${newWork.id}`,
           formData
-        );
-        store.commit("works/EDIT_WORK", response.data, { root: true });
-      } catch (error) {
-        const text = error.response.data.errors
+          );
+          store.commit("works/EDIT_WORK", response.data, { root: true });
+          return response.data;
+        } catch (error) {
+          const text = error.response.data.errors
           ? JSON.stringify(error.response.data.errors)
           : error.message;
-        console.log("error", text);
-        throw new Error("Ошибка изменения работы: " + text);
-      }
-    },
+          console.log("error", text);
+          throw new Error("Ошибка изменения работы: " + text);
+        }
+      },
 
     async fetch(store, user) {
       try {

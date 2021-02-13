@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://webdev-api.loftschool.com"
+axios.defaults.baseURL = "https://webdev-api.loftschool.com";
 
 const token = localStorage.getItem("token");
 
@@ -8,17 +8,43 @@ if (token) {
   axios.defaults.headers["Authorization"] = `Bearer ${token}`;
 }
 
-/*
-  axios.interceptors.response.use((response) => {
-    console.log('response', response)
-    return response
-  }, (error) => {
-    if (error.response.status == 401) {
+axios.interceptors.request.use(
+  function(config) {
+    console.log("request", config);
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+axios.interceptors.response.use(
+  (response) => {
+    console.log("response", response);
+    return response;
+  },
+  async (error) => {
+    if (error.response) {
+      if (error.response.status === 401) {
+        console.log("Refresh user token");
+        let config = error.config;
+        const response = await axios.post("/refreshToken");
+        axios.defaults.headers[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
+        localStorage.setItem("token", response.data.token);
+        config.headers["Authorization"] = `Bearer ${response.data.token}`;
 
+        return axios(config);
+      }
+      if (error.response.status === 400) {
+        localStorage.setItem("token", "");
+        this.$router.replace("/login");
+        console.log("Wrong token");
+      }
     }
-    console.log('1111error', error.response.status)
-    // return Promise.reject(error);
-  })
-*/
+    return Promise.reject(error);
+  }
+);
+// axios.interceptors.request.eject(myInterceptor);
 
 export default axios;

@@ -40,7 +40,6 @@ export default {
   },
   data() {
     return {
-      // categories: ["Категория1", "Категория2", "Категория3"],
       showEmptyCat: false,
     };
   },
@@ -50,7 +49,6 @@ export default {
         this.fetchCategoriesAction(user.id);
       })
       .catch((error) => {
-        // console.log(error);
       });
   },
   computed: {
@@ -91,10 +89,13 @@ export default {
     },
     async editCategory(categoryId, category) {
       try {
-        await this.editCategoryAction({ id: categoryId, title: category.title });
-        category.editmode=false;
+        let resp = await this.editCategoryAction({
+          id: categoryId,
+          title: category.title,
+        });
+        category.editmode = false;
         this.showTooltip({
-          text: `Изменена категория ${category.title}`,
+          text: resp.message,
           type: "success",
         });
       } catch (error) {
@@ -106,10 +107,9 @@ export default {
     },
     async deleteCategory(categoryId, category) {
       try {
-        await this.deleteCategoryAction({ id: categoryId});
-        // category.editmode=false;
+        let resp = await this.deleteCategoryAction({ id: categoryId });
         this.showTooltip({
-          text: `Удалена категория`,
+          text: resp.message,
           type: "success",
         });
       } catch (error) {

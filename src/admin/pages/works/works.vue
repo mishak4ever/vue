@@ -5,19 +5,20 @@
       .header
         .title Мои Работы
       .form
-        workForm(
-          v-if="showEmptyCat",
-          :editWork="editWork",
-          @cancel="showEmptyCat = false"
-        )
+        transition(name="slide")
+          workForm(
+            v-if="showEmptyCat",
+            :editWork="editWork",
+            @close="handleClose"
+          )
       ul.cards
-        li.item
+        li.item-card
           squareBtn(
             type="square",
             title="Добавить работу",
             @click="showEmptyCat = true"
           )
-        li.item(v-for="work in works", :key="work.id")
+        li.item-card(v-for="work in works", :key="work.id")
           workCard(:work="work", @change="handleChange(work)")
   .page-content(v-else) Загрузка...
 </template>
@@ -51,9 +52,14 @@ export default {
       this.showEmptyCat=true;
       // console.log(work);
     },
+    handleClose() {
+      this.editWork={};
+      this.showEmptyCat=false;
+      // console.log(work);
+    },
   },
-  created() {
-    this.getUser()
+  async created() {
+    await this.getUser()
       .then((user) => {
         this.fetchWorks(user.id);
       })

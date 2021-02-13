@@ -24,7 +24,6 @@ import headline from "./components/headline";
 import user from "./components/user";
 import navigation from "./components/navigation";
 import notification from "./components/notification";
-import $axios from "./axios.js";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -47,10 +46,13 @@ export default {
       dumm: "user/dumm",
     }),
     async logout() {
-      // await this.refreshToken();
-      // console.log(this.userToken);
       localStorage.setItem("token", "");
       this.$router.replace("/login");
+    },
+    async refresh() {
+      const token = await this.refreshToken();
+      console.log("Refresh user token");
+      return token;
     },
   },
   mounted() {
@@ -67,46 +69,6 @@ export default {
       }
       next();
     });
-    $axios.interceptors.request.use(
-      function (config) {
-        // console.log("request", config);
-        return config;
-      },
-      function (error) {
-        return Promise.reject(error);
-      }
-    );
-    $axios.interceptors.response.use(
-      (response) => {
-        // console.log("response", response);
-        return response;
-      },
-      (error) => {
-        if (error.response) {
-          if (error.response.status == 401) {
-            const token=this.refreshToken();
-            config.headers['Authorization'] = `Bearer ${token}`;
-            console.log("Refresh user token");
-            const config = error.config;
-            $axios
-              .request(config)
-              .then((response) => {
-                resolve(response);
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          }
-          if (error.response.status == 400) {
-            localStorage.setItem("token", "");
-            this.$router.replace("/login");
-            console.log("Wrong token");
-          }
-        }
-        return Promise.reject(error);
-      }
-    );
-    // axios.interceptors.request.eject(myInterceptor);
   },
   computed: {
     ...mapState({

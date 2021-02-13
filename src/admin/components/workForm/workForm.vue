@@ -21,7 +21,7 @@
                 )
           .form-col
             .form-row
-              app-input(v-model="newWork.title", title="Название")
+              app-input(v-focus, v-model="newWork.title", title="Название")
             .form-row
               app-input(v-model="newWork.link", title="Ссылка")
             .form-row
@@ -86,17 +86,18 @@ export default {
       // this.$refs.form.submit();
       // console.log(this.$refs.tech.currentTags);
       this.newWork.techs = this.$refs.tech.currentTags;
+      let resp = "";
       try {
         if (this.editWork.id) {
-          await this.editWorkAction(this.newWork);
+          resp = await this.editWorkAction(this.newWork);
         } else {
-          await this.addNewWorkAction(this.newWork);
+          resp = await this.addNewWorkAction(this.newWork);
         }
         this.showTooltip({
-          text: this.editWork.id ? "Работа сохранена" : "Работа Добавлена",
+          text: resp.message ? resp.message : "Запись изменена",
           type: "success",
         });
-        this.$emit("cancel");
+        this.$emit("close");
       } catch (error) {
         this.showTooltip({
           text: error.message,
@@ -106,7 +107,7 @@ export default {
     },
     handleCancel(event) {
       event.preventDefault();
-      this.$emit("cancel");
+      this.$emit("close");
     },
     handleChange(event) {
       event.preventDefault();
@@ -121,8 +122,9 @@ export default {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        this.newWork.preview = reader.result;
         if ((file.size < 1, 5 * 1024 * 1024)) {
+          this.newWork.preview = reader.result;
+          console.log(reader);
           this.showTooltip({
             text: `Файл загружен`,
             type: "success",
