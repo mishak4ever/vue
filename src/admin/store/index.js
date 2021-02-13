@@ -7,9 +7,11 @@ import skills from "./modules/skills.js";
 import user from "./modules/user.js";
 import tooltips from "./modules/tooltips.js";
 import works from "./modules/works.js";
+import reviews from "./modules/reviews.js";
 
 export default new Vuex.Store({
   modules: {
+    reviews,
     categories,
     works,
     skills,
