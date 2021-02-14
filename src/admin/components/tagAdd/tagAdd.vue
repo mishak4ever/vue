@@ -4,12 +4,12 @@
     title="Добавление Тэга",
     maxlength="100",
     v-model="currentTags",
-    @click="$emit('change', currentTags)"
+    @input="$emit('change', currentTags)"
   )
   ul.tags
     li.tag(
       v-for="(tag, index) in tagsArray",
-      :key="`${tag}${index}`",
+      :key="`${tag}-${index}`",
       v-if="tag.trim()"
     )
       tag(interactive, :title="tag", @click="removeTag(tag)")

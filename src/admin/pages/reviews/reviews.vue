@@ -6,10 +6,11 @@
         .title Мои Отзывы
       .form
         transition(name="slide")
-          workForm(
+          reviewForm(
             v-if="showEmptyCat",
-            :editWork="editWork",
+            :editReview="editReview",
             @close="handleClose"
+            @submit="handleSubmit"
           )
       ul.cards
         li.item-card
@@ -19,57 +20,69 @@
             @click="showEmptyCat = true"
           )
         li.item-card(v-for="review in reviews", :key="review.id")
-          reviewCard(:review="review", @change="handleChange(work)")
+          reviewCard(
+            :review="review",
+            @change="handleChange(review)",
+            @delete="handleDelete(review)"
+          )
   .page-content(v-else) Загрузка...
 </template>
 
 <script>
-import workForm from "../../components/workForm";
+import reviewForm from "../../components/reviewForm";
 import reviewCard from "../../components/reviewCard";
 import squareBtn from "../../components/button";
 import { mapState, mapActions } from "vuex";
 export default {
-  components: { workForm, reviewCard, squareBtn },
+  components: { reviewForm, reviewCard, squareBtn },
   data() {
     return {
       showEmptyCat: false,
-      editWork: {},
-      reviews: {},
+      editReview: {},
     };
   },
   computed: {
     ...mapState({
-      works: (state) => state.works.data,
+      reviews: (state) => state.reviews.data,
       user: (state) => state.user.user,
     }),
   },
   methods: {
     ...mapActions({
       fetchReviews: "reviews/fetch",
+      deleteReview: "reviews/delete",
       getUser: "user/get_user",
     }),
-    handleChange(work) {
-      this.editWork = work;
+    handleChange(review) {
+      this.editReview = review;
       this.showEmptyCat = true;
-      // console.log(work);
+    },
+    handleDelete(review) {
+      if (confirm("Вы действительно хотие удалить отзыв?")) {
+        this.deleteReview(review);
+      }
+    },
+    async handleSubmit() {
+      await this.fetchReviews(this.user.user.id);
+      this.editReview = {};
+      this.showEmptyCat = false;
     },
     handleClose() {
-      this.editWork = {};
+      this.editReview = {};
       this.showEmptyCat = false;
-      // console.log(work);
     },
   },
   async created() {
     await this.getUser()
       .then((user) => {
-        // this.fetchReviews(user.id);
+        this.fetchReviews(user.id);
       })
       .catch((error) => {
         // console.log(error);
       });
   },
   mounted() {
-    this.reviews = require("../../../json/reviews.json");
+    // this.reviews = require("../../../json/reviews.json");
   },
 };
 </script>

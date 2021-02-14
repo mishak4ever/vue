@@ -1,5 +1,5 @@
 @import "../../../styles/mixins.pcss";
-/* @import "../../../styles/layout/base.pcss"; */
+
 .form-cols {
   display: flex;
 
@@ -50,6 +50,14 @@
   &.hovered {
     border-color: blue;
   }
+  
+  @include tablets {
+    margin-bottom: 50px;
+  }
+}
+
+.uploader-btn-bottom {
+  transform: translate(0, 160px);
 }
 
 .uploader-title {

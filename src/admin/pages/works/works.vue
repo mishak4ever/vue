@@ -9,7 +9,8 @@
           workForm(
             v-if="showEmptyCat",
             :editWork="editWork",
-            @close="handleClose"
+            @close="handleClose",
+            @submit="handleSubmit"
           )
       ul.cards
         li.item-card
@@ -19,7 +20,11 @@
             @click="showEmptyCat = true"
           )
         li.item-card(v-for="work in works", :key="work.id")
-          workCard(:work="work", @change="handleChange(work)")
+          workCard(
+            :work="work",
+            @change="handleChange(work)",
+            @delete="handleDelete(work)"
+          )
   .page-content(v-else) Загрузка...
 </template>
 
@@ -45,16 +50,27 @@ export default {
   methods: {
     ...mapActions({
       fetchWorks: "works/fetch",
+      deleteWork: "works/delete",
       getUser: "user/get_user",
     }),
     handleChange(work) {
-      this.editWork=work;
-      this.showEmptyCat=true;
+      this.editWork = work;
+      this.showEmptyCat = true;
       // console.log(work);
     },
+    handleDelete(work) {
+      if (confirm("Вы действительно хотие удалить работу?")) {
+        this.deleteWork(work);
+      }
+    },
+    async handleSubmit() {
+      await this.fetchWorks(this.user.user.id);
+      this.editWork = {};
+      this.showEmptyCat = false;
+    },
     handleClose() {
-      this.editWork={};
-      this.showEmptyCat=false;
+      this.editWork = {};
+      this.showEmptyCat = false;
       // console.log(work);
     },
   },

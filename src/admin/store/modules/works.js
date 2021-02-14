@@ -15,6 +15,11 @@ export default {
         return work.id === editWork.id ? editWork : work;
       });
     },
+    DELETE_WORK(state, deleteWork) {
+      state.data = state.data.filter(
+        (work) => work.id !== deleteWork.id
+      );
+    },
   },
   actions: {
     async add(store, newWork) {
@@ -30,36 +35,55 @@ export default {
         store.commit("works/ADD_WORK", response.data, { root: true });
         return response.data;
       } catch (error) {
-        const text = error.response.data.errors
-        ? JSON.stringify(error.response.data.errors)
-        : error.message;
-        console.log("error", text);
+        let text = [];
+        if (error.response.data.errors) {
+          Object.keys(error.response.data.errors).forEach((item) => {
+            text.push(error.response.data.errors[item]);
+          });
+        } else text = error.message;
         throw new Error("Ошибка добавления работы: " + text);
       }
     },
     async edit(store, newWork) {
       const formData = new FormData();
-      
+
       for (let prop in newWork) {
         if (prop == "preview") continue;
         formData.append(prop, newWork[prop]);
       }
-      
+
       try {
         const response = await this.$axios.post(
           `/works/${newWork.id}`,
           formData
-          );
-          store.commit("works/EDIT_WORK", response.data, { root: true });
-          return response.data;
-        } catch (error) {
-          const text = error.response.data.errors
-          ? JSON.stringify(error.response.data.errors)
-          : error.message;
-          console.log("error", text);
-          throw new Error("Ошибка изменения работы: " + text);
-        }
-      },
+        );
+        store.commit("works/EDIT_WORK", response.data, { root: true });
+        return response.data;
+      } catch (error) {
+        let text = [];
+        if (error.response.data.errors) {
+          Object.keys(error.response.data.errors).forEach((item) => {
+            text.push(error.response.data.errors[item]);
+          });
+        } else text = error.message;
+        throw new Error("Ошибка изменения работы: " + text);
+      }
+    },
+    async delete(store, work) {
+      try {
+        const response = await this.$axios.delete(`/works/${work.id}`);
+        store.commit("works/DELETE_WORK", work, { root: true });
+        return response.data;
+      } catch (error) {
+        let text = [];
+        if (error.response.data.errors) {
+          Object.keys(error.response.data.errors).forEach((item) => {
+            text.push(error.response.data.errors[item]);
+          });
+        } else text = error.message;
+        throw new Error("Ошибка удаления работы: " + text);
+      }
+    },
 
     async fetch(store, user) {
       try {

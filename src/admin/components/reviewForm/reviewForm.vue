@@ -1,73 +1,75 @@
 <template lang="pug">
 .form-component
   form.form(@submit.prevent="handleSubmit", ref="form")
-    workCard(:title="title")
+    reviewCard(:title="title")
       .form-container(slot="content")
         .form-cols
-          .form-col
-            label(
+          .avatar-col
+            div(
               :style="{ backgroundImage: `url(${preview})` }",
-              :class="['uploader', { active: preview }, { hovered: hovered }]",
+              :class="['avatar_wrapper', { no_photo: !preview }, { hovered: hovered }]",
               @dragover="handleDragOver",
               @dragleave="hovered = false",
               @drop="handleChange"
             )
-              .uploader-title(v-if="wideWindow") Перетащите или загрузите картинку
-              .uploader-btn(v-if="wideWindow")
-                defaultBtn(
-                  typeAttr="file",
-                  @change="handleChange",
-                  title="Выбрать"
-                )
-              .uploader-btn-bottom(v-else)
-                defaultBtn(
-                  title="Изменить превью",
-                  plain,
-                  typeAttr="file",
-                  @change="handleChange"
-                )
-          .form-col
-            .form-row
-              app-input(v-focus, v-model="newWork.title", title="Название")
-            .form-row
-              app-input(v-model="newWork.link", title="Ссылка")
-            .form-row
-              app-input(
-                v-model="newWork.description",
-                field-type="textarea",
-                title="Описание"
+            .uploader-btn-bottom
+              defaultBtn(
+                title="Добавить фото",
+                plain,
+                typeAttr="file",
+                @change="handleChange"
               )
-            .form-row
-              tagAdd(v-model="newWork.techs", :currentTags="tech", ref="tech")
-        .form-btns
-          .btn
-            defaultBtn(title="Отмена", plain, @click="handleCancel")
-          .btn
-            defaultBtn(type="spin", title="Сохранить", :disabled="isSaving")
+          .form-col
+            .author-section
+              .author-row
+                app-input(
+                  v-focus,
+                  @enter="handleInput",
+                  v-model="editReview.author",
+                  title="Имя автора"
+                )
+              .author-row
+                app-input(v-model="editReview.occ", title="Титул автора")
+            .review-section
+              .form-row
+                app-input(
+                  v-model="editReview.text",
+                  field-type="textarea",
+                  title="Описание"
+                )
+              .form-row
+                .form-btns
+                  .btn
+                    defaultBtn(title="Отмена", plain, @click="handleCancel")
+                  .btn
+                    defaultBtn(
+                      type="spin",
+                      title="Сохранить",
+                      :disabled="isSaving"
+                    )
 </template>
 
 <script>
-import workCard from "../Card";
+import reviewCard from "../Card";
 import defaultBtn from "../button";
 import appInput from "../input";
 import tagAdd from "../tagAdd";
 import { mapState, mapActions } from "vuex";
 export default {
   props: {
-    editWork: {},
+    editReview: {},
   },
-  components: { workCard, defaultBtn, appInput, tagAdd },
+  components: { reviewCard, defaultBtn, appInput, tagAdd },
   data() {
     return {
       isSaving: false,
       hovered: false,
       title: "",
       preview: "",
-      newWork: {
-        title: "",
-        link: "",
-        description: "",
-        techs: "",
+      newReview: {
+        author: "",
+        occ: "",
+        text: "",
         photo: {},
       },
       tech: "",
@@ -75,43 +77,36 @@ export default {
     };
   },
   created() {
-    this.newWork = this.editWork;
-    this.newWork.id = this.editWork.id;
-    this.title = this.editWork.id
-      ? "Редактирование работы"
-      : "Добавление работы";
-    if (this.editWork.photo)
-      this.preview = `https://webdev-api.loftschool.com/${this.newWork.photo}`;
-  },
-  computed: {
-    ...mapState({
-      winWidth: (state) => state.window.windowWidth,
-    }),
-    wideWindow() {
-      return this.winWidth > 768;
-    },
+    this.newReview = this.editReview;
+    this.newReview.id = this.editReview.id;
+    this.title = this.editReview.id
+      ? "Редактирование отзыва"
+      : "Добавление отзыва";
+    if (this.editReview.photo)
+      this.preview = `https://webdev-api.loftschool.com/${this.editReview.photo}`;
   },
   methods: {
     ...mapActions({
-      addNewWorkAction: "works/add",
-      editWorkAction: "works/edit",
+      addnewReviewAction: "reviews/add",
+      editReviewAction: "reviews/edit",
       showTooltip: "tooltips/show_tooltip",
     }),
-    click() {
-      console.log(this.windowWidth);
-    },
     handleDragOver(e) {
       e.preventDefault();
       this.hovered = true;
     },
+    handleInput() {
+      console.log("enter");
+    },
     async handleSubmit() {
+      console.log("submit");
       this.isSaving = true;
       let resp = "";
       try {
-        if (this.editWork.id) {
-          resp = await this.editWorkAction(this.newWork);
+        if (this.editReview.id) {
+          resp = await this.editReviewAction(this.newReview);
         } else {
-          resp = await this.addNewWorkAction(this.newWork);
+          resp = await this.addnewReviewAction(this.newReview);
         }
         this.showTooltip({
           text: resp.message ? resp.message : "Запись изменена",
@@ -136,7 +131,7 @@ export default {
       const file = event.dataTransfer
         ? event.dataTransfer.files[0]
         : event.target.files[0];
-      this.newWork.photo = file;
+      this.newReview.photo = file;
       this.renderPhoto(file);
       this.hovered = false;
     },
@@ -146,7 +141,6 @@ export default {
       reader.onloadend = () => {
         if ((file.size < 1, 5 * 1024 * 1024)) {
           this.preview = reader.result;
-          console.log(reader);
           this.showTooltip({
             text: `Файл загружен`,
             type: "success",
@@ -156,7 +150,7 @@ export default {
             text: `Файл больше 1,5 мб`,
             type: "error",
           });
-          this.newWork.photo = {};
+          this.newReview.photo = {};
           this.preview = "";
         }
       };
@@ -177,4 +171,4 @@ export default {
 };
 </script>
 
-<style src="./workForm.pcss" lang="postcss" scoped></style>
+<style src="./reviewForm.pcss" lang="postcss" scoped></style>

@@ -1,19 +1,18 @@
 <template lang="pug">
-card(simple)
-  .reviews-wrapper
-    .review-header
-      .avatar
-        avatar(size="2.7", :src="userAva")
-      .title 
-        .author {{ review.name }}
-        //- .author {{ review.author }}
-        .occ {{ review.occ }}
-    .data
-      .text
-        p {{ review.text }}
-      .btns
-        icon(symbol="pencil", title="Править", @click="handleChange")
-        icon(symbol="trash", title="Удалить", @click="handleDelete")
+card()
+  //- .reviews-wrapper
+  .review-header(slot="title")
+    .avatar
+      avatar(size="2.7", :src="userAva")
+    .title 
+      .author {{ review.author }}
+      .occ {{ review.occ }}
+  .data(slot="content")
+    .text
+      p {{ review.text }}
+    .btns
+      icon(symbol="pencil", title="Править", @click="$emit('change', review)")
+      icon(symbol="cross", title="Удалить", @click="$emit('delete', review)")
 </template>
 
 <script>
@@ -27,20 +26,15 @@ export default {
   },
   computed: {
     userAva() {
-      // return `https://webdev-api.loftschool.com/${this.review.photo}`;
-      return require(`../../../images/content/${this.review.pic}`).default;
+      return `https://webdev-api.loftschool.com/${this.review.photo}`;
+      // return require(`../../../images/content/hero_photo.png`).default;
     },
   },
   mounted() {
     //..
   },
   methods: {
-    handleChange() {
-      this.$emit("change", this.review);
-    },
-    handleDelete() {
-      this.$emit("delete", this.review);
-    },
+    //..
   },
 };
 </script>

@@ -11,8 +11,8 @@ card(simple)
         p {{ work.description }}
       a.link(:href="work.link") {{ work.link }}
       .btns
-        icon(symbol="pencil", title="Править", @click="handleChange")
-        icon(symbol="trash", title="Удалить", @click="handleDelete")
+        icon(symbol="pencil", title="Править", @click="$emit('change', work)")
+        icon(symbol="cross", title="Удалить", @click="$emit('delete', work)")
 </template>
 
 <script>
@@ -33,12 +33,7 @@ export default {
     //..
   },
   methods: {
-    handleChange() {
-      this.$emit("change", this.work);
-    },
-    handleDelete() {
-      this.$emit("delete", this.work);
-    },
+    // ..
   },
 };
 </script>

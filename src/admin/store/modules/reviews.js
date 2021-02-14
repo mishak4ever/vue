@@ -15,6 +15,9 @@ export default {
         return review.id === editReview.id ? editReview : review;
       });
     },
+    DELETE_REVIEW(state, deleteReview) {
+      state.data = state.data.filter((review) => review.id !== deleteReview.id);
+    },
   },
   actions: {
     async add(store, newReview) {
@@ -30,36 +33,55 @@ export default {
         store.commit("reviews/ADD_REVIEW", response.data, { root: true });
         return response.data;
       } catch (error) {
-        const text = error.response.data.errors
-        ? JSON.stringify(error.response.data.errors)
-        : error.message;
-        console.log("error", text);
+        let text = [];
+        if (error.response.data.errors) {
+          Object.keys(error.response.data.errors).forEach((item) => {
+            text.push(error.response.data.errors[item]);
+          });
+        } else text = error.message;
         throw new Error("Ошибка добавления отзыва: " + text);
+      }
+    },
+    async delete(store, review) {
+      try {
+        const response = await this.$axios.delete(`/reviews/${review.id}`);
+        store.commit("reviews/DELETE_REVIEW", review, { root: true });
+        return response.data;
+      } catch (error) {
+        let text = [];
+        if (error.response.data.errors) {
+          Object.keys(error.response.data.errors).forEach((item) => {
+            text.push(error.response.data.errors[item]);
+          });
+        } else text = error.message;
+        throw new Error("Ошибка удаления отзыва: " + text);
       }
     },
     async edit(store, newReview) {
       const formData = new FormData();
-      
+
       for (let prop in newReview) {
         if (prop == "preview") continue;
         formData.append(prop, newReview[prop]);
       }
-      
+
       try {
         const response = await this.$axios.post(
           `/reviews/${newReview.id}`,
           formData
-          );
-          store.commit("reviews/EDIT_REVIEW", response.data, { root: true });
-          return response.data;
-        } catch (error) {
-          const text = error.response.data.errors
-          ? JSON.stringify(error.response.data.errors)
-          : error.message;
-          console.log("error", text);
-          throw new Error("Ошибка изменения отзыва: " + text);
-        }
-      },
+        );
+        store.commit("reviews/EDIT_REVIEW", response.data, { root: true });
+        return response.data;
+      } catch (error) {
+        let text = [];
+        if (error.response.data.errors) {
+          Object.keys(error.response.data.errors).forEach((item) => {
+            text.push(error.response.data.errors[item]);
+          });
+        } else text = error.message;
+        throw new Error("Ошибка изменения отзыва: " + text);
+      }
+    },
 
     async fetch(store, user) {
       try {
