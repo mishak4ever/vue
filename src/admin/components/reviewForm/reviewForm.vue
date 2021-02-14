@@ -95,7 +95,8 @@ export default {
       e.preventDefault();
       this.hovered = true;
     },
-    handleInput() {
+    handleInput(e) {
+      e.preventDefault();
       console.log("enter");
     },
     async handleSubmit() {

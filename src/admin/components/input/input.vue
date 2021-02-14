@@ -9,7 +9,7 @@
       class="input__elem field__elem"
       v-bind="$attrs"
       :value="value"
-      @keydown.enter="$emit('enter', $event.target.value)"
+      @keydown.enter="$emit('enter', $event)"
       @input="$emit('input', $event.target.value)"
     />
     <div class="input__error-tooltip">
