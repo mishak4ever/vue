@@ -9,7 +9,7 @@
           reviewForm(
             v-if="showEmptyCat",
             :editReview="editReview",
-            @close="handleClose"
+            @close="handleClose",
             @submit="handleSubmit"
           )
       ul.cards
@@ -29,12 +29,17 @@
 </template>
 
 <script>
-import reviewForm from "../../components/reviewForm";
+// import reviewForm from "../../components/reviewForm";
+import reviewsModule from "../../store/modules/reviews";
 import reviewCard from "../../components/reviewCard";
 import squareBtn from "../../components/button";
 import { mapState, mapActions } from "vuex";
 export default {
-  components: { reviewForm, reviewCard, squareBtn },
+  components: {
+    reviewForm: () => import("../../components/reviewForm"),
+    reviewCard,
+    squareBtn,
+  },
   data() {
     return {
       showEmptyCat: false,
@@ -73,13 +78,17 @@ export default {
     },
   },
   async created() {
-    await this.getUser()
+    this.$store.registerModule("reviews", reviewsModule);
+    this.getUser()
       .then((user) => {
         this.fetchReviews(user.id);
       })
       .catch((error) => {
         // console.log(error);
       });
+  },
+  destroyed() {
+    this.$store.unregisterModule("reviews");
   },
   mounted() {
     // this.reviews = require("../../../json/reviews.json");

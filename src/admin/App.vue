@@ -61,20 +61,7 @@ export default {
     if (!this.loggedIn && !this.login) this.$router.replace("/login");
   },
   created() {
-    window.addEventListener(
-      "resize",
-      // this.$store.commit("window/setWindowWidth")
-      this.setWidth
-    );
-    this.$router.beforeEach((to, from, next) => {
-      try {
-        console.log(to.path);
-        console.log(this.winWidth);
-      } catch (error) {
-        // console.log(error.message);
-      }
-      next();
-    });
+    window.addEventListener("resize", this.setWidth);
   },
   computed: {
     ...mapState({
@@ -87,9 +74,6 @@ export default {
     login() {
       return this.$route.path == "/login" ? true : false;
     },
-    // windowWidth() {
-    //   return this.$store.state.windowWidth;
-    // },
   },
 };
 </script>

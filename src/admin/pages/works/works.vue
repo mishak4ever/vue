@@ -29,12 +29,17 @@
 </template>
 
 <script>
-import workForm from "../../components/workForm";
+// import workForm from "../../components/workForm";
+import worksModule from "../../store/modules/works";
 import workCard from "../../components/workCard";
 import squareBtn from "../../components/button";
 import { mapState, mapActions } from "vuex";
 export default {
-  components: { workForm, workCard, squareBtn },
+  components: {
+    workForm: () => import("../../components/workForm"),
+    workCard,
+    squareBtn,
+  },
   data() {
     return {
       showEmptyCat: false,
@@ -75,13 +80,17 @@ export default {
     },
   },
   async created() {
-    await this.getUser()
+    this.$store.registerModule("works", worksModule);
+    this.getUser()
       .then((user) => {
         this.fetchWorks(user.id);
       })
       .catch((error) => {
         // console.log(error);
       });
+  },
+  destroyed() {
+    this.$store.unregisterModule("works");
   },
   mounted() {
     // this.fetchWorks(this.user.user.id);

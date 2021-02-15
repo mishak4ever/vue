@@ -1,6 +1,7 @@
 import axios from "axios";
+const config = require("../../env.paths.json");
 
-axios.defaults.baseURL = "https://webdev-api.loftschool.com";
+axios.defaults.baseURL = config.API_BASE_URL;
 
 const token = localStorage.getItem("token");
 
@@ -10,7 +11,7 @@ if (token) {
 
 axios.interceptors.request.use(
   function(config) {
-    console.log("request", config);
+    // console.log("request", config);
     return config;
   },
   function(error) {
@@ -19,7 +20,7 @@ axios.interceptors.request.use(
 );
 axios.interceptors.response.use(
   (response) => {
-    console.log("response", response);
+    // console.log("response", response);
     return response;
   },
   async (error) => {

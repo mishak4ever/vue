@@ -30,6 +30,8 @@
 
 <script>
 import iconedBtn from "../../components/button";
+import categoriesModule from "../../store/modules/categories";
+import skillsModule from "../../store/modules/skills";
 import category from "../../components/category";
 import { mapActions, mapState } from "vuex";
 
@@ -43,13 +45,19 @@ export default {
       showEmptyCat: false,
     };
   },
+
   created() {
+    this.$store.registerModule("categories", categoriesModule);
+    this.$store.registerModule("skills", skillsModule);
     this.getUserAction()
       .then((user) => {
         this.fetchCategoriesAction(user.id);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
+  },
+  destroyed() {
+    this.$store.unregisterModule("skills");
+    this.$store.unregisterModule("categories");
   },
   computed: {
     ...mapState({
