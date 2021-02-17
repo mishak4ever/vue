@@ -1,6 +1,11 @@
+.page-container {
+  max-width: $bp-desktop;
+  margin: 0 auto;
+  width: 100%;
+}
+
 .root-container {
   min-height: 100vh;
-  /* max-width: 1200px; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -18,8 +23,29 @@
   }
 }
 
+.login-container {
+  min-height: 100vh;
+  margin: 0 auto;
+  background: url("~images/content/mountain_baloon.jpg") center center / cover
+    no-repeat;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.8;
+    background-color: $text-color;
+  }
+}
+
 .notification {
   transition: transform 0.3s;
+}
+
+.route {
+  width: 100%;
 }
 
 .nav {

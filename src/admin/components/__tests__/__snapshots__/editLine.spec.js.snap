@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`проверяет работу валидатора формы 1`] = `
+<div
+  class="edit-line-component"
+>
+  <div
+    class="title"
+  >
+    <div
+      class="text"
+    >
+      
+    </div>
+     
+    <div
+      class="icon"
+    >
+      <button
+        class="icon-component is-pencil grayscale no-words"
+        data-text=""
+        type="button"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -19,15 +19,14 @@
           type="password"
         )
       .button
-        defaultBtn(type="spin" title="Отправить" :disabled="isLoading")
+        defaultBtn(type="spin", title="Отправить", :disabled="isLoading")
 </template>
 
 
 <script>
 import defaultBtn from "../../components/button";
 import appInput from "../../components/input";
-import $axios from "../../axios.js";
-import ButtonSpinner from "vue-button-spinner";
+// import $axios from "../../axios.js";
 import { mapActions, mapState } from "vuex";
 
 import SimpleVueValidation from "simple-vue-validator";
@@ -43,7 +42,6 @@ export default {
     },
   },
   components: {
-    ButtonSpinner,
     appInput,
     defaultBtn,
   },
@@ -62,19 +60,17 @@ export default {
   methods: {
     ...mapActions({
       showTooltip: "tooltips/show_tooltip",
+      userLogin: "user/login",
     }),
     async logon() {
       if ((await this.$validate()) === false) return;
       this.isLoading = true;
       try {
-        const response = await $axios.post("/login", this.user);
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+        const token = await this.userLogin(this.user);
         this.$router.replace("/");
       } catch (error) {
         this.showTooltip({
-          text: error.response.data.error,
+          text: error.message,
           type: "error",
         });
       } finally {

@@ -1,0 +1,66 @@
+@import "../../../styles/mixins.pcss";
+/* @import "../../../styles/layout/base.pcss"; */
+.header {
+  display: flex;
+  margin-bottom: 60px;
+}
+
+.page-content {
+  padding: 60px 0 20px;
+  flex: 1;
+}
+
+.title {
+  margin-right: 60px;
+  font-size: 21px;
+  font-weight: bold;
+  color: $text-color;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -20px;
+}
+
+.item-card {
+  width: calc(100% / 3 - 20px);
+  margin-left: 20px;
+  min-height: 385px; 
+  margin-bottom: 30px;
+  
+  @include tablets {
+    width: calc(100% / 2 - 20px);
+  }
+  
+  @include tablets600 {
+    width: 100%;
+  }
+}
+
+.form {
+  margin-bottom: 30px;
+}
+
+.slide-leave-active,
+.slide-enter-active {
+  transition: 0.3s;
+}
+.slide-leave {
+  opacity: 1;
+  transform: translate(0px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translate(0, -550px);
+}
+
+.slide-enter-to {
+  opacity: 1;
+  transform: translate(0px);
+}
+
+.slide-enter {
+  opacity: 0;
+  transform: translate(0, -550px);
+}

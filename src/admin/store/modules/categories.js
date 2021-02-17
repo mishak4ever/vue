@@ -60,6 +60,7 @@ export default {
       try {
         const response = await this.$axios.post("/categories", { title });
         store.commit("categories/ADD_CATEGORY", response.data, { root: true });
+        return response.data;
       } catch (error) {
         throw new Error("произошла ошибка");
       }
@@ -70,6 +71,7 @@ export default {
           title: category.title,
         });
         store.commit("categories/EDIT_CATEGORY", category, { root: true });
+        return response.data;
       } catch (error) {
         throw new Error("произошла ошибка");
       }
@@ -78,6 +80,7 @@ export default {
       try {
         const response = await this.$axios.delete("/categories/" + category.id);
         store.commit("categories/DELETE_CATEGORY", category, { root: true });
+        return response.data;
       } catch (error) {
         throw new Error("произошла ошибка");
       }

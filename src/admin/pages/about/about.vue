@@ -9,27 +9,29 @@
         @click="showEmptyCat = true",
         v-if="!showEmptyCat"
       )
-  ul.skills
-    li.item(v-if="showEmptyCat")
-      category(
-        empty,
-        @remove="showEmptyCat = false",
-        @approve="createCategory($event)"
-      )
-    li.item(v-for="category in categories", :key="category.id")
-      category(
-        :title="category.category",
-        :skills="category.skills",
-        @catEvent="catHandler(category.id, $event)",
-        @remove="deleteCategory(category.id)",
-        @approve="editCategory(category.id, $event)"
-      )
+    ul.skills
+      li.item(v-if="showEmptyCat")
+        category(
+          empty,
+          @remove="showEmptyCat = false",
+          @approve="createCategory($event)"
+        )
+      li.item(v-for="category in categories", :key="category.id")
+        category(
+          :title="category.category",
+          :skills="category.skills",
+          @catEvent="catHandler(category.id, $event)",
+          @remove="deleteCategory(category.id)",
+          @approve="editCategory(category.id, $event)"
+        )
 .loading-content(v-else) Загрузка...
 </template>
 
 
 <script>
 import iconedBtn from "../../components/button";
+import categoriesModule from "../../store/modules/categories";
+import skillsModule from "../../store/modules/skills";
 import category from "../../components/category";
 import { mapActions, mapState } from "vuex";
 
@@ -40,18 +42,22 @@ export default {
   },
   data() {
     return {
-      // categories: ["Категория1", "Категория2", "Категория3"],
       showEmptyCat: false,
     };
   },
+
   created() {
+    this.$store.registerModule("categories", categoriesModule);
+    this.$store.registerModule("skills", skillsModule);
     this.getUserAction()
       .then((user) => {
         this.fetchCategoriesAction(user.id);
       })
-      .catch((error) => {
-        // console.log(error);
-      });
+      .catch((error) => {});
+  },
+  destroyed() {
+    this.$store.unregisterModule("skills");
+    this.$store.unregisterModule("categories");
   },
   computed: {
     ...mapState({
@@ -91,10 +97,13 @@ export default {
     },
     async editCategory(categoryId, category) {
       try {
-        await this.editCategoryAction({ id: categoryId, title: category.title });
-        category.editmode=false;
+        let resp = await this.editCategoryAction({
+          id: categoryId,
+          title: category.title,
+        });
+        category.editmode = false;
         this.showTooltip({
-          text: `Изменена категория ${category.title}`,
+          text: resp.message,
           type: "success",
         });
       } catch (error) {
@@ -106,10 +115,9 @@ export default {
     },
     async deleteCategory(categoryId, category) {
       try {
-        await this.deleteCategoryAction({ id: categoryId});
-        // category.editmode=false;
+        let resp = await this.deleteCategoryAction({ id: categoryId });
         this.showTooltip({
-          text: `Удалена категория`,
+          text: resp.message,
           type: "success",
         });
       } catch (error) {

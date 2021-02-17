@@ -1,6 +1,11 @@
 <template>
   <button
-    :class="['icon-component', iconClass, {'grayscale': this.grayscale}, {'no-words' : !!title === false}]"
+    :class="[
+      'icon-component',
+      iconClass,
+      { grayscale: this.grayscale },
+      { 'no-words': !!title === false },
+    ]"
     :data-text="title"
     type="button"
     v-on="$listeners"
@@ -13,21 +18,22 @@ export default {
     symbol: {
       type: String,
       default: "pencil",
-      validator: value => ["pencil", "cross", "tick", "trash"].includes(value)
+      validator: (value) =>
+        ["pencil", "cross", "tick", "trash", "user"].includes(value),
     },
     grayscale: {
-      type: Boolean
+      type: Boolean,
     },
     title: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   computed: {
     iconClass() {
       return `is-${this.symbol}`;
-    }
-  }
+    },
+  },
 };
 </script>
 

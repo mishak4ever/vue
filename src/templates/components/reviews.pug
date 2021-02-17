@@ -13,8 +13,8 @@ script(type="text/x-template")#reviews-container
           .review_user
             .user_block
               .avatar
-                .user-min__pic-wrapper
-                  img(:src="review.pic").user-min__avatar-pic
+                .user-min__pic-wrapper(:style="{ backgroundImage: `url(${review.pic})` }",)
+                  //- img.user-min__avatar-pic(:style="{ backgroundImage: `url(${review.pic})` }",)
               .info
-                p.name {{review.name}}
+                p.name {{review.author}}
                 p.position {{review.occ}}

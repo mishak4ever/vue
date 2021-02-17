@@ -5,6 +5,11 @@ import SimpleVueValidation from "simple-vue-validator";
 import store from "./store/index.js";
 import $axios from "./axios";
 
+Vue.directive('focus', {
+  inserted: function (el) {
+      el.focus()
+  }
+})
 
 Vue.use(SimpleVueValidation, { mode: "manual" });
 store.$axios = $axios;

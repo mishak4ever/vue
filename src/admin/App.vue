@@ -1,12 +1,11 @@
 <template lang="pug">
-.root-container
-  .container
+div(:class="[{ 'login-container': login }, { 'root-container': !login }]")
   .header(v-if="!login")
     headline(@action="logout")
       user
     .nav
       navigation
-  .container
+  .page-container
     .route
       router-view
     .tooltip-container(:class="{ active: tooltipIsShown }")
@@ -42,10 +41,18 @@ export default {
   methods: {
     ...mapActions({
       hideTooltip: "tooltips/hide_tooltip",
+      refreshToken: "user/refresh_token",
+      getUser: "user/get_user",
+      setWidth: "window/set_width",
     }),
-    logout() {
+    async logout() {
       localStorage.setItem("token", "");
       this.$router.replace("/login");
+    },
+    async refresh() {
+      const token = await this.refreshToken();
+      console.log("Refresh user token");
+      return token;
     },
   },
   mounted() {
@@ -53,11 +60,16 @@ export default {
     this.loggedIn = token ? true : false;
     if (!this.loggedIn && !this.login) this.$router.replace("/login");
   },
+  created() {
+    window.addEventListener("resize", this.setWidth);
+  },
   computed: {
-    ...mapState("tooltips", {
-      tooltipIsShown: (state) => state.isShown,
-      tooltipText: (state) => state.text,
-      tooltipType: (state) => state.type,
+    ...mapState({
+      userToken: (state) => state.user.token,
+      tooltipIsShown: (state) => state.tooltips.isShown,
+      tooltipText: (state) => state.tooltips.text,
+      tooltipType: (state) => state.tooltips.type,
+      winWidth: (state) => state.window.windowWidth,
     }),
     login() {
       return this.$route.path == "/login" ? true : false;

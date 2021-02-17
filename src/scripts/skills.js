@@ -1,6 +1,5 @@
-// console.log("this is the skills module");
-
 import Vue from "vue";
+import $axios from "./axios";
 
 const skillItem = {
   props: ["skill"],
@@ -35,7 +34,10 @@ new Vue({
       skills: [],
     };
   },
-  created() {
-    this.skills = require("../json/skills.json");
+  async created() {
+    const response = await $axios.get("/categories/" + $axios.UserId);
+    this.skills=response.data;
+    // this.skills = require("../json/skills.json");
+    // console.log(this.skills);
   },
 });
