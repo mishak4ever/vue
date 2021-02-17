@@ -3,7 +3,11 @@
     <div class="title" v-if="category.editmode === false">
       <div class="text">{{ value }}</div>
       <div class="icon">
-        <icon symbol="pencil" grayscale @click="category.editmode = true"></icon>
+        <icon
+          symbol="pencil"
+          grayscale
+          @click="category.editmode = true"
+        ></icon>
       </div>
     </div>
     <div v-else class="title">
@@ -20,7 +24,7 @@
       </div>
       <div class="buttons">
         <div class="button-icon">
-          <icon symbol="tick" @click="onApprove"></icon>
+          <icon ref="accept-btn" symbol="tick" @click="onApprove"></icon>
         </div>
         <div class="button-icon">
           <icon symbol="cross" @click="onCancel"></icon>
@@ -32,6 +36,7 @@
 
 <script>
 import SimpleVueValidation from "simple-vue-validator";
+import icon from "../icon/icon.vue";
 const Validator = SimpleVueValidation.Validator;
 
 export default {
@@ -53,7 +58,7 @@ export default {
       category: {
         editmode: this.editModeByDefault,
         title: this.value,
-      }
+      },
     };
   },
   methods: {
@@ -64,11 +69,12 @@ export default {
     },
     onCancel() {
       // this.category.editmode = false;
-      this.$emit("remove",this.category);
+      this.$emit("remove", this.category);
     },
   },
   components: {
-    icon: () => import("components/icon"),
+    icon,
+    // icon: () => import("components/icon"),
     appInput: () => import("components/input"),
   },
 };

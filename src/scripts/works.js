@@ -1,4 +1,5 @@
 import Vue from "vue";
+import $axios from "./axios";
 
 const thumbs = {
   props: ["works", "currentWork"],
@@ -47,7 +48,7 @@ const info = {
   },
   computed: {
     tagsArray() {
-      return this.currentWork.skills.split(",");
+      return this.currentWork.techs.split(",");
     },
   },
 };
@@ -61,7 +62,17 @@ new Vue({
   },
   data() {
     return {
-      works: [],
+      works: [
+        {
+          description: "",
+          id: "",
+          link: "",
+          photo: "",
+          pic: "",
+          techs: "",
+          title: "",
+        },
+      ],
       currentIndex: 0,
     };
   },
@@ -114,13 +125,23 @@ new Vue({
       while (this.currentWork.id != slide_id) {
         this.works.push(this.works[0]);
         this.works.shift();
-        this.currentIndex = this.currentWork.id -1;
+        this.currentIndex = this.currentWork.id - 1;
       }
     },
+    setFullUrlImages(data) {
+      return data.map((item) => {
+        item.pic = `${$axios.defaults.baseURL}/${item.photo}`;
+        console.log(item.pic);
+        return item;
+      });
+    },
   },
-  created() {
-    const worksData = require("../json/works.json");
-    this.works = this.requireImagesToArray(worksData);
-    // this.currentWork = this.works[this.currentIndex];
+  async created() {
+    const response = await $axios.get("/works/" + $axios.UserId);
+    console.log(response.data);
+    this.works = this.setFullUrlImages(response.data);
+    // const worksData = require("../json/works.json");
+    // this.works = this.requireImagesToArray(worksData);
+    this.currentWork = this.works[this.currentIndex];
   },
 });

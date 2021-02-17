@@ -14,7 +14,7 @@ script(type="text/x-template")#works-container
 script(type="text/x-template")#works-display
   .works-slider__pics(:data-slide="currentSlide")
     .works-slider__pics-content
-      img(:src="currentWork1.photo").works-slider__fullpic
+      img(:src="currentWork1.pic").works-slider__fullpic
       thumbs(
         :works="reversedWorks",
         :currentWork="currentWork1"
@@ -36,23 +36,21 @@ script(type="text/x-template")#works-info
       )
     .works-slider__title {{currentWork.title}}
     .works-slider__desc
-      p {{currentWork.desc}}
+      p {{currentWork.description}}
     .works-slider__link 
-      a(:href="currentWork.link").iconed-link Посмотреть сайт
+      a(:href="currentWork.link" target="_blank").iconed-link Посмотреть сайт
 
 script(type="text/x-template")#works-thumbs
   ul.works-slider__thumbs
-    //- - for (var i = 3; i > 0; i--)
     li.works-slider__thumb-item(
       v-for="slide in works" :key="slide.id"
       :class="{active: currentWork.id==slide.id}"
       @click="$emit('thslide', slide.id);" 
       )
         //- a(href="#" target="_blank").works-slider__thumb-link
-        img(:src="slide.photo").works-slider__thumb
+        img(:src="slide.pic").works-slider__thumb
 
 script(type="text/x-template")#works-buttons
-  //- pre {{notHoverUp}}
   .works-slider__buttons
     button(
       @click="$emit('btslide', 'next');" 
@@ -64,7 +62,6 @@ script(type="text/x-template")#works-buttons
       ).works-slider__btn.next
 
 script(type="text/x-template")#works-tags
-  //- - var tags = ['HTML', 'CSS', 'JavaScript'];
   ul.works-slider__tags
     li.works-slider__tag-item(v-for="tag in tags")
       .tag {{tag}}

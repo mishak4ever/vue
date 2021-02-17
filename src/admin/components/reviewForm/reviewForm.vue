@@ -24,16 +24,21 @@
               .author-row
                 app-input(
                   v-focus,
-                  @enter="handleInput",
+                  :errorMessage="validation.firstError('editReview.author')",
                   v-model="editReview.author",
                   title="Имя автора"
                 )
               .author-row
-                app-input(v-model="editReview.occ", title="Титул автора")
+                app-input(
+                  v-model="editReview.occ",
+                  :errorMessage="validation.firstError('editReview.occ')",
+                  title="Титул автора"
+                )
             .review-section
               .form-row
                 app-input(
                   v-model="editReview.text",
+                  :errorMessage="validation.firstError('editReview.text')",
                   field-type="textarea",
                   title="Описание"
                 )
@@ -45,7 +50,8 @@
                     defaultBtn(
                       type="spin",
                       title="Сохранить",
-                      :disabled="isSaving"
+                      :disabled="isSaving",
+                      @submit.prevent="handleInput"
                     )
 </template>
 
@@ -54,8 +60,21 @@ import reviewCard from "../Card";
 import defaultBtn from "../button";
 import appInput from "../input";
 import tagAdd from "../tagAdd";
+import SimpleVueValidation from "simple-vue-validator";
+const Validator = SimpleVueValidation.Validator;
 import { mapState, mapActions } from "vuex";
 export default {
+  validators: {
+    "editReview.author": (value) => {
+      return Validator.value(value).required("Поле не может быть пустым");
+    },
+    "editReview.occ": (value) => {
+      return Validator.value(value).required("Поле не может быть пустым");
+    },
+    "editReview.text": (value) => {
+      return Validator.value(value).required("Поле не может быть пустым");
+    },
+  },
   props: {
     editReview: {},
   },
@@ -97,10 +116,10 @@ export default {
     },
     handleInput(e) {
       e.preventDefault();
-      console.log("enter");
+      console.log("handleInput", e);
     },
     async handleSubmit() {
-      console.log("submit");
+      if ((await this.$validate()) === false) return;
       this.isSaving = true;
       let resp = "";
       try {
@@ -125,6 +144,7 @@ export default {
     },
     handleCancel(event) {
       event.preventDefault();
+      if (event.clientX == 0 && event.clientY == 0) return;
       this.$emit("close");
     },
     handleChange(event) {

@@ -28,22 +28,38 @@
                 )
           .form-col
             .form-row
-              app-input(v-focus, v-model="newWork.title", title="Название")
+              app-input(
+                v-focus,
+                v-model="newWork.title",
+                :errorMessage="validation.firstError('newWork.title')",
+                title="Название",
+                id="title_input"
+              )
             .form-row
-              app-input(v-model="newWork.link", title="Ссылка")
+              app-input(
+                v-model="newWork.link",
+                :errorMessage="validation.firstError('newWork.link')",
+                title="Ссылка"
+              )
             .form-row
               app-input(
                 v-model="newWork.description",
+                :errorMessage="validation.firstError('newWork.description')",
                 field-type="textarea",
                 title="Описание"
               )
             .form-row
-              tagAdd(v-model="newWork.techs", :currentTags="tech", ref="tech")
+              tagAdd(
+                v-model="newWork.techs",
+                :errorMessage="validation.firstError('newWork.techs')",
+                :currentTags="tech",
+                ref="tech"
+              )
         .form-btns
           .btn
             defaultBtn(title="Отмена", plain, @click="handleCancel")
           .btn
-            defaultBtn(type="spin", title="Сохранить", :disabled="isSaving")
+            defaultBtn(type="spin" id="save_btn", title="Сохранить", :disabled="isSaving")
 </template>
 
 <script>
@@ -51,8 +67,27 @@ import workCard from "../Card";
 import defaultBtn from "../button";
 import appInput from "../input";
 import tagAdd from "../tagAdd";
+import SimpleVueValidation from "simple-vue-validator";
+const Validator = SimpleVueValidation.Validator;
 import { mapState, mapActions } from "vuex";
+
 export default {
+  validators: {
+    "newWork.title": (value) => {
+      return Validator.value(value).required("Введите название работы");
+    },
+    "newWork.link": (value) => {
+      return Validator.value(value)
+        .required("Введите ссылку на работу")
+        .url("Поле должно содержать URL");
+    },
+    "newWork.techs": (value) => {
+      return Validator.value(value).required("Введите тэги");
+    },
+    "newWork.description": (value) => {
+      return Validator.value(value).required("Введите описание");
+    },
+  },
   props: {
     editWork: {},
   },
@@ -105,6 +140,7 @@ export default {
       this.hovered = true;
     },
     async handleSubmit() {
+      if ((await this.$validate()) === false) return;
       this.isSaving = true;
       let resp = "";
       try {

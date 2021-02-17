@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "./router";
 const config = require("../../env.paths.json");
 
 axios.defaults.baseURL = config.API_BASE_URL;
@@ -39,7 +40,7 @@ axios.interceptors.response.use(
       }
       if (error.response.status === 400) {
         localStorage.setItem("token", "");
-        this.$router.replace("/login");
+        router.replace("/login");
         console.log("Wrong token");
       }
     }
