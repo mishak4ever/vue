@@ -42,13 +42,13 @@
 
 .tooltip-container {
   position: fixed;
-  top: 0%;
+  top: 100%;
   left: 50%;
-  transform: translateY(-100%);
+  transform: translateX(-50%);
 
   &.active {
     .notification {
-      transform: translateY(+100%);
+      transform: translateY(-100%);
     }
   }
 }
