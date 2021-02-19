@@ -1,5 +1,5 @@
 <template lang="pug">
-div(:class="[{ 'login-container': login }, { 'root-container': !login }]")
+div(:class="['root-container', { 'login-container': login }]")
   .header(v-if="!login")
     headline(@action="logout")
       user

@@ -88,11 +88,19 @@
   object-fit: cover center center;
 }
 
-.works-slider__thumbs {
+.thumbs_wrapper{
+  /* height: 348px; */
+  /* position: relative; */
   position: absolute;
-  /* background: transparent; */
   right: 0;
   bottom: 0;
+  overflow: hidden;
+}
+
+.works-slider__thumbs {
+  /* position: absolute;
+  right: 0;
+  bottom: 0; */
   width: 178px;
   @include tablets {
     width: 116px;
@@ -102,6 +110,10 @@
   }
 }
 
+.transition {
+  transition: 0.8s;
+}
+
 .works-slider__thumbs .button {
   background: transparent;
 }
@@ -109,7 +121,7 @@
 .works-slider__thumb-item {
   height: 100px;
   width: 100%;
-  transition: 0.2s;
+  /* transition: 0.2s; */
   &.active,
   &:hover {
     outline: 3px solid #f29400;
@@ -322,4 +334,37 @@
   line-height: 20px;
   color: rgba($text-color, 0.7);
   border-radius: 50px;
+}
+
+/* .slide-leave-active,
+.slide-enter-active {
+  transition: 0.3s;
+}
+.slide-leave {
+  opacity: 1;
+  transform: translate(0px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translate(0, -116px);
+}
+
+.slide-enter-to {
+  opacity: 1;
+  transform: translate(0px);
+}
+
+.slide-enter {
+  opacity: 0;
+  transform: translate(0, -116px);
+} */
+
+.bottom-outsided {
+  position: absolute;
+  bottom: 100%;
+}
+.top-outsided {
+  position: absolute;
+  top: 100%;
 }

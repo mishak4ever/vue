@@ -2,8 +2,40 @@ import Vue from "vue";
 import $axios from "./axios";
 
 const thumbs = {
-  props: ["works", "currentWork"],
+  props: ["works", "currentWork", "direction"],
   template: "#works-thumbs",
+  computed: {
+    slicedSlides() {
+      return [...this.works].splice(0, 3);
+    },
+  },
+  methods: {
+    enterCb(el, done) {
+      if (this.works.length < 1) return;
+      console.log("enter", this.direction);
+      const list = el.closest("ul");
+      list.classList.add("transition");
+      if (this.direction=="prev"){
+        el.classList.add("bottom-outsided");
+        list.style.transform = "translateY(100px)";
+      } else {
+        el.classList.add("top-outsided");
+        list.style.transform = "translateY(-100px)";
+      }
+      list.addEventListener("transitionend", (e) => done());
+    },
+    afterCb(el) {
+      console.log("after");
+      const list = el.closest("ul");
+      if (this.direction=="prev"){
+        el.classList.remove("bottom-outsided");
+      } else {
+        el.classList.remove("top-outsided");
+      }
+      list.style.transform = "translateY(0px)";
+      list.classList.remove("transition");
+    },
+  },
 };
 
 const buttons = {
@@ -12,7 +44,7 @@ const buttons = {
 };
 
 const display = {
-  props: ["currentWork1", "works", "currentIndex"],
+  props: ["currentWork1", "works", "currentIndex", "direction"],
   template: "#works-display",
   components: {
     thumbs,
@@ -74,6 +106,7 @@ new Vue({
         },
       ],
       currentIndex: 0,
+      direction: "",
     };
   },
   computed: {
@@ -104,6 +137,7 @@ new Vue({
       });
     },
     compslide(direction) {
+      this.direction = direction;
       const lastItem = this.works[this.works.length - 1];
       const worksLength = this.works.length - 1;
       switch (direction) {

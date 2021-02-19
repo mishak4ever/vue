@@ -3,6 +3,7 @@ script(type="text/x-template")#works-container
     display(
       :currentWork1="currentWork",
       :works="works",
+      :direction="direction",
       @dispslide="compslide",
       @thslide="thslide",
       :currentIndex="currentIndex"
@@ -17,11 +18,12 @@ script(type="text/x-template")#works-display
       img(:src="currentWork1.pic").works-slider__fullpic
       thumbs(
         :works="reversedWorks",
-        :currentWork="currentWork1"
-        @thslide="$emit('thslide', $event);",
+        :currentWork="currentWork1",
+        :direction="direction",
+        @thslide="$emit('thslide', $event);" 
       )
       buttons(
-        @btslide="$emit('dispslide', $event);",
+        @btslide="$emit('dispslide', $event);" 
         :notHoverUp="maxUp",
         :notHoverDown="maxDown"
       )
@@ -41,14 +43,15 @@ script(type="text/x-template")#works-info
       a(:href="currentWork.link" target="_blank").iconed-link Посмотреть сайт
 
 script(type="text/x-template")#works-thumbs
-  ul.works-slider__thumbs
-    li.works-slider__thumb-item(
-      v-for="slide in works" :key="slide.id"
-      :class="{active: currentWork.id==slide.id}"
-      @click="$emit('thslide', slide.id);" 
-      )
-        //- a(href="#" target="_blank").works-slider__thumb-link
-        img(:src="slide.pic").works-slider__thumb
+  .thumbs_wrapper
+    transition-group(tag="ul", :css="false", @enter="enterCb", @after-enter="afterCb").works-slider__thumbs
+      li.works-slider__thumb-item(
+        v-for="slide in slicedSlides" :key="slide.id"
+        :class="{active: currentWork.id==slide.id}"
+        @click="$emit('thslide', slide.id);" 
+        )
+          //- a(href="#" target="_blank").works-slider__thumb-link
+          img(:src="slide.pic").works-slider__thumb
 
 script(type="text/x-template")#works-buttons
   .works-slider__buttons
