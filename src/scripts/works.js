@@ -6,20 +6,24 @@ const thumbs = {
   template: "#works-thumbs",
   computed: {
     slicedSlides() {
-      return [...this.works].splice(0, 3);
+      return [...this.works].slice(0, 3);
     },
   },
   methods: {
     enterCb(el, done) {
       if (this.works.length < 1) return;
       console.log("enter", this.direction);
+      this.$emit("controlButton", {
+        direction: this.direction,
+        disabled: true,
+      });
       const list = el.closest("ul");
       list.classList.add("transition");
-      if (this.direction=="prev"){
-        el.classList.add("bottom-outsided");
+      if (this.direction == "next") {
+        el.classList.add("top-outsided");
         list.style.transform = "translateY(100px)";
       } else {
-        el.classList.add("top-outsided");
+        el.classList.add("bottom-outsided");
         list.style.transform = "translateY(-100px)";
       }
       list.addEventListener("transitionend", (e) => done());
@@ -27,24 +31,40 @@ const thumbs = {
     afterCb(el) {
       console.log("after");
       const list = el.closest("ul");
-      if (this.direction=="prev"){
-        el.classList.remove("bottom-outsided");
-      } else {
+      if (this.direction == "next") {
         el.classList.remove("top-outsided");
+      } else {
+        el.classList.remove("bottom-outsided");
       }
       list.style.transform = "translateY(0px)";
       list.classList.remove("transition");
+      this.$emit("controlButton", {
+        direction: this.direction,
+        disabled: false,
+      });
+    },
+    leaveCb(el, done) {
+      console.log("leave");
+      el.classList.add("fade");
+      el.addEventListener("transitionend", (e) => done());
     },
   },
 };
 
 const buttons = {
-  props: ["notHoverUp", "notHoverDown"],
+  props: ["notHoverUp", "notHoverDown", "disableNext", "disablePrev"],
   template: "#works-buttons",
 };
 
 const display = {
-  props: ["currentWork1", "works", "currentIndex", "direction"],
+  props: [
+    "currentWork1",
+    "works",
+    "currentIndex",
+    "direction",
+    "disableNext",
+    "disablePrev",
+  ],
   template: "#works-display",
   components: {
     thumbs,
@@ -53,7 +73,10 @@ const display = {
   computed: {
     reversedWorks() {
       const works = [...this.works];
-      return works.slice(0, 3).reverse();
+      // return works.slice(0, 3).reverse();
+      // return works.slice(0, 3);
+      return works;
+      // return works.reverse();
     },
     currentSlide() {
       return this.currentIndex + 1;
@@ -65,6 +88,7 @@ const display = {
       return this.currentIndex <= 0;
     },
   },
+  methods: {},
 };
 
 const tags = {
@@ -81,6 +105,11 @@ const info = {
   computed: {
     tagsArray() {
       return this.currentWork.techs.split(",");
+    },
+    worksArray() {
+      return this.works.map((item) => {
+        return item.id;
+      });
     },
   },
 };
@@ -107,6 +136,8 @@ new Vue({
       ],
       currentIndex: 0,
       direction: "",
+      disableNext: false,
+      disablePrev: false,
     };
   },
   computed: {
@@ -141,13 +172,13 @@ new Vue({
       const lastItem = this.works[this.works.length - 1];
       const worksLength = this.works.length - 1;
       switch (direction) {
-        case "next":
+        case "prev":
           if (this.currentIndex == worksLength) break;
           this.works.push(this.works[0]);
           this.works.shift();
           this.currentIndex++;
           break;
-        case "prev":
+        case "next":
           if (this.currentIndex == 0) break;
           this.works.unshift(lastItem);
           this.works.pop();
@@ -160,6 +191,16 @@ new Vue({
         this.works.push(this.works[0]);
         this.works.shift();
         this.currentIndex = this.currentWork.id - 1;
+      }
+    },
+    controlButton(event) {
+      switch (event.direction) {
+        case "prev":
+          this.disablePrev = event.disabled;
+          break;
+        case "next":
+          this.disableNext = event.disabled;
+          break;
       }
     },
     setFullUrlImages(data) {

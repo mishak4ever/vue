@@ -5,10 +5,14 @@ script(type="text/x-template")#works-container
       :works="works",
       :direction="direction",
       @dispslide="compslide",
+      @controlButton="controlButton",
+      :disableNext="disableNext",
+      :disablePrev="disablePrev",
       @thslide="thslide",
       :currentIndex="currentIndex"
     )
     info(
+      :works="works",
       :currentWork="currentWork"
     )
 
@@ -17,6 +21,7 @@ script(type="text/x-template")#works-display
     .works-slider__pics-content
       img(:src="currentWork1.pic").works-slider__fullpic
       thumbs(
+        @controlButton="$emit('controlButton', $event);" 
         :works="reversedWorks",
         :currentWork="currentWork1",
         :direction="direction",
@@ -25,7 +30,9 @@ script(type="text/x-template")#works-display
       buttons(
         @btslide="$emit('dispslide', $event);" 
         :notHoverUp="maxUp",
-        :notHoverDown="maxDown"
+        :notHoverDown="maxDown",
+        :disableNext="disableNext",
+        :disablePrev="disablePrev",
       )
 
 
@@ -44,24 +51,30 @@ script(type="text/x-template")#works-info
 
 script(type="text/x-template")#works-thumbs
   .thumbs_wrapper
-    transition-group(tag="ul", :css="false", @enter="enterCb", @after-enter="afterCb").works-slider__thumbs
-      li.works-slider__thumb-item(
-        v-for="slide in slicedSlides" :key="slide.id"
-        :class="{active: currentWork.id==slide.id}"
-        @click="$emit('thslide', slide.id);" 
-        )
-          //- a(href="#" target="_blank").works-slider__thumb-link
-          img(:src="slide.pic").works-slider__thumb
+    transition-group(tag="ul", :css="false",
+      @enter="enterCb", 
+      @after-enter="afterCb",
+      @leave="leaveCb",
+      ).works-slider__thumbs
+        li.works-slider__thumb-item(
+          v-for="slide in slicedSlides" :key="slide.id"
+          :class="{active: currentWork.id==slide.id}"
+          @click="$emit('thslide', slide.id);" 
+          )
+            //- a(href="#" target="_blank").works-slider__thumb-link
+            img(:src="slide.pic").works-slider__thumb
 
 script(type="text/x-template")#works-buttons
   .works-slider__buttons
     button(
       @click="$emit('btslide', 'next');" 
-      :class="{nothover: notHoverUp}"
+      :class="{nothover: notHoverDown}"
+      :disabled="disableNext"
     ).works-slider__btn.prev
     button(
       @click="$emit('btslide', 'prev');" 
-      :class="{nothover: notHoverDown}"
+      :class="{nothover: notHoverUp}"
+      :disabled="disablePrev"
       ).works-slider__btn.next
 
 script(type="text/x-template")#works-tags

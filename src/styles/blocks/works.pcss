@@ -88,15 +88,6 @@
   object-fit: cover center center;
 }
 
-.thumbs_wrapper{
-  /* height: 348px; */
-  /* position: relative; */
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-}
-
 .works-slider__thumbs {
   /* position: absolute;
   right: 0;
@@ -362,9 +353,24 @@
 
 .bottom-outsided {
   position: absolute;
-  bottom: 100%;
+  top: 100%;
 }
 .top-outsided {
   position: absolute;
-  top: 100%;
+  top: -33.3%;
+}
+
+.fade {
+  opacity: 0;
+  transition: 0.8s;
+}
+
+
+.thumbs_wrapper {
+  height: 300px;
+  /* position: relative; */
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }
